@@ -93,10 +93,10 @@ function startActionPhase(actionTypes, actionPhaseTitle, screens, actionPhaseIns
 
     actionPhaseTitle.textContent = 'Fase de Ação Secreta';
     switchScreen(screens, 'actionPhase');
-    runPlayerActionTurn(actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay);
+    runPlayerActionTurn(screens, actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay);
 }
 
-function runPlayerActionTurn(actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay) {
+function runPlayerActionTurn(screens, actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay) {
     const player = players[actionPhase.currentPlayerIndex];
     actionPhaseInstruction.textContent = `Passe o celular para ${player.name}`;
     actionUiContainer.innerHTML = '';
@@ -130,7 +130,7 @@ function runPlayerActionTurn(actionPhaseInstruction, actionUiContainer, actionPh
             }
         }, 1000);
 
-        showActionUIForPlayer(player, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn);
+        showActionUIForPlayer(player, screens, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn);
     };
 }
 
