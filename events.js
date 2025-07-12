@@ -8,9 +8,9 @@ const randomEvents = [
     { id: 'fastRound', name: 'Rodada Rápida', description: 'O tempo para discussão e votação é limitado a um cronômetro na tela.', type: 'pre-discussion' }
 ];
 
-function triggerPreDiscussionEvent() {
+function triggerPreDiscussionEvent(discussionTimerDisplay, startPlayerInfo, playersListDiv, screens, eventTitle, eventDescription, eventModal, closeEventModal) {
     if (!gameSettings.events || Math.random() > 0.20) {
-        startDiscussionPhase();
+        startDiscussionPhase(discussionTimerDisplay, startPlayerInfo, playersListDiv, screens);
         return;
     }
 
@@ -25,7 +25,7 @@ function triggerPreDiscussionEvent() {
     }
 
     if (possibleEvents.length === 0) {
-        startDiscussionPhase();
+        startDiscussionPhase(discussionTimerDisplay, startPlayerInfo, playersListDiv, screens);
         return;
     }
 
@@ -45,7 +45,7 @@ function triggerPreDiscussionEvent() {
     }
 
     if (event.id === 'fastRound') {
-        startDiscussionTimer(gameSettings.discussionTime);
+        startDiscussionTimer(gameSettings.discussionTime, discussionTimerDisplay);
     }
 
     eventTitle.textContent = activeEvent.name;
@@ -53,7 +53,7 @@ function triggerPreDiscussionEvent() {
     eventModal.style.display = 'block';
     closeEventModal.onclick = () => {
         eventModal.style.display = 'none';
-        startDiscussionPhase();
+        startDiscussionPhase(discussionTimerDisplay, startPlayerInfo, playersListDiv, screens);
     };
 }
 
