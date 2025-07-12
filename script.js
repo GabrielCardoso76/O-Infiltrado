@@ -1,84 +1,83 @@
 document.addEventListener('DOMContentLoaded', () => {
     const wordPairs = [
         { majority: 'Carro', infiltrator: 'Moto', category: 'Veículo' },
-        { majority: 'Moto', infiltrator: 'Carro', category: 'Veículo' }, // Invertido
+        { majority: 'Moto', infiltrator: 'Carro', category: 'Veículo' },
         { majority: 'Futebol', infiltrator: 'Basquete', category: 'Esporte' },
-        { majority: 'Basquete', infiltrator: 'Futebol', category: 'Esporte' }, // Invertido
+        { majority: 'Basquete', infiltrator: 'Futebol', category: 'Esporte' },
         { majority: 'Praia', infiltrator: 'Piscina', category: 'Lugar' },
-        { majority: 'Piscina', infiltrator: 'Praia', category: 'Lugar' }, // Invertido
+        { majority: 'Piscina', infiltrator: 'Praia', category: 'Lugar' },
         { majority: 'Cachorro', infiltrator: 'Gato', category: 'Animal' },
-        { majority: 'Gato', infiltrator: 'Cachorro', category: 'Animal' }, // Invertido
+        { majority: 'Gato', infiltrator: 'Cachorro', category: 'Animal' },
         { majority: 'Filme', infiltrator: 'Série', category: 'Entretenimento' },
-        { majority: 'Série', infiltrator: 'Filme', category: 'Entretenimento' }, // Invertido
+        { majority: 'Série', infiltrator: 'Filme', category: 'Entretenimento' },
         { majority: 'Pizza', infiltrator: 'Hambúrguer', category: 'Comida' },
-        { majority: 'Hambúrguer', infiltrator: 'Pizza', category: 'Comida' }, // Invertido
+        { majority: 'Hambúrguer', infiltrator: 'Pizza', category: 'Comida' },
         { majority: 'Sol', infiltrator: 'Lua', category: 'Astro' },
-        { majority: 'Lua', infiltrator: 'Sol', category: 'Astro' }, // Invertido
+        { majority: 'Lua', infiltrator: 'Sol', category: 'Astro' },
         { majority: 'Computador', infiltrator: 'Celular', category: 'Tecnologia' },
-        { majority: 'Celular', infiltrator: 'Computador', category: 'Tecnologia' }, // Invertido
+        { majority: 'Celular', infiltrator: 'Computador', category: 'Tecnologia' },
         { majority: 'Violão', infiltrator: 'Guitarra', category: 'Instrumento Musical' },
-        { majority: 'Guitarra', infiltrator: 'Violão', category: 'Instrumento Musical' }, // Invertido
+        { majority: 'Guitarra', infiltrator: 'Violão', category: 'Instrumento Musical' },
         { majority: 'Café', infiltrator: 'Chá', category: 'Bebida' },
-        { majority: 'Chá', infiltrator: 'Café', category: 'Bebida' }, // Invertido
+        { majority: 'Chá', infiltrator: 'Café', category: 'Bebida' },
         { majority: 'Verão', infiltrator: 'Inverno', category: 'Estação do Ano' },
-        { majority: 'Inverno', infiltrator: 'Verão', category: 'Estação do Ano' }, // Invertido
+        { majority: 'Inverno', infiltrator: 'Verão', category: 'Estação do Ano' },
         { majority: 'Brasil', infiltrator: 'Argentina', category: 'País' },
-        { majority: 'Argentina', infiltrator: 'Brasil', category: 'País' }, // Invertido
+        { majority: 'Argentina', infiltrator: 'Brasil', category: 'País' },
         { majority: 'Médico', infiltrator: 'Enfermeiro', category: 'Profissão' },
-        { majority: 'Enfermeiro', infiltrator: 'Médico', category: 'Profissão' }, // Invertido
+        { majority: 'Enfermeiro', infiltrator: 'Médico', category: 'Profissão' },
         { majority: 'Livro', infiltrator: 'Revista', category: 'Leitura' },
-        { majority: 'Revista', infiltrator: 'Livro', category: 'Leitura' }, // Invertido
+        { majority: 'Revista', infiltrator: 'Livro', category: 'Leitura' },
         { majority: 'Casa', infiltrator: 'Apartamento', category: 'Moradia' },
-        { majority: 'Apartamento', infiltrator: 'Casa', category: 'Moradia' }, // Invertido
+        { majority: 'Apartamento', infiltrator: 'Casa', category: 'Moradia' },
         { majority: 'Rio', infiltrator: 'Mar', category: 'Geografia' },
-        { majority: 'Mar', infiltrator: 'Rio', category: 'Geografia' }, // Invertido
+        { majority: 'Mar', infiltrator: 'Rio', category: 'Geografia' },
         { majority: 'Pintura', infiltrator: 'Desenho', category: 'Arte' },
-        { majority: 'Desenho', infiltrator: 'Pintura', category: 'Arte' }, // Invertido
+        { majority: 'Desenho', infiltrator: 'Pintura', category: 'Arte' },
         { majority: 'Ouro', infiltrator: 'Prata', category: 'Metal' },
-        { majority: 'Prata', infiltrator: 'Ouro', category: 'Metal' }, // Invertido
+        { majority: 'Prata', infiltrator: 'Ouro', category: 'Metal' },
         { majority: 'Garfo', infiltrator: 'Colher', category: 'Utensílio' },
-        { majority: 'Colher', infiltrator: 'Garfo', category: 'Utensílio' }, // Invertido
+        { majority: 'Colher', infiltrator: 'Garfo', category: 'Utensílio' },
         { majority: 'Cama', infiltrator: 'Sofá', category: 'Móvel' },
-        { majority: 'Sofá', infiltrator: 'Cama', category: 'Móvel' }, // Invertido
+        { majority: 'Sofá', infiltrator: 'Cama', category: 'Móvel' },
         { majority: 'Corrida', infiltrator: 'Caminhada', category: 'Esporte' },
-        { majority: 'Caminhada', infiltrator: 'Corrida', category: 'Esporte' }, // Invertido
+        { majority: 'Caminhada', infiltrator: 'Corrida', category: 'Esporte' },
         { majority: 'Laranja', infiltrator: 'Limão', category: 'Comida' },
-        { majority: 'Limão', infiltrator: 'Laranja', category: 'Comida' }, // Invertido
+        { majority: 'Limão', infiltrator: 'Laranja', category: 'Comida' },
         { majority: 'Tubarão', infiltrator: 'Golfinho', category: 'Animal' },
-        { majority: 'Golfinho', infiltrator: 'Tubarão', category: 'Animal' }, // Invertido
+        { majority: 'Golfinho', infiltrator: 'Tubarão', category: 'Animal' },
         { majority: 'Helicóptero', infiltrator: 'Avião', category: 'Veículo' },
-        { majority: 'Avião', infiltrator: 'Helicóptero', category: 'Veículo' }, // Invertido
+        { majority: 'Avião', infiltrator: 'Helicóptero', category: 'Veículo' },
         { majority: 'Teatro', infiltrator: 'Cinema', category: 'Entretenimento' },
-        { majority: 'Cinema', infiltrator: 'Teatro', category: 'Entretenimento' }, // Invertido
+        { majority: 'Cinema', infiltrator: 'Teatro', category: 'Entretenimento' },
         { majority: 'Rádio', infiltrator: 'Televisão', category: 'Tecnologia' },
-        { majority: 'Televisão', infiltrator: 'Rádio', category: 'Tecnologia' }, // Invertido
+        { majority: 'Televisão', infiltrator: 'Rádio', category: 'Tecnologia' },
         { majority: 'Bateria', infiltrator: 'Piano', category: 'Instrumento Musical' },
-        { majority: 'Piano', infiltrator: 'Bateria', category: 'Instrumento Musical' }, // Invertido
+        { majority: 'Piano', infiltrator: 'Bateria', category: 'Instrumento Musical' },
         { majority: 'Vinho', infiltrator: 'Cerveja', category: 'Bebida' },
-        { majority: 'Cerveja', infiltrator: 'Vinho', category: 'Bebida' }, // Invertido
+        { majority: 'Cerveja', infiltrator: 'Vinho', category: 'Bebida' },
         { majority: 'Primavera', infiltrator: 'Outono', category: 'Estação do Ano' },
-        { majority: 'Outono', infiltrator: 'Primavera', category: 'Estação do Ano' }, // Invertido
+        { majority: 'Outono', infiltrator: 'Primavera', category: 'Estação do Ano' },
         { majority: 'Japão', infiltrator: 'China', category: 'País' },
-        { majority: 'China', infiltrator: 'Japão', category: 'País' }, // Invertido
+        { majority: 'China', infiltrator: 'Japão', category: 'País' },
         { majority: 'Advogado', infiltrator: 'Juiz', category: 'Profissão' },
-        { majority: 'Juiz', infiltrator: 'Advogado', category: 'Profissão' }, // Invertido
+        { majority: 'Juiz', infiltrator: 'Advogado', category: 'Profissão' },
         { majority: 'Jornal', infiltrator: 'Blog', category: 'Leitura' },
-        { majority: 'Blog', infiltrator: 'Jornal', category: 'Leitura' }, // Invertido
+        { majority: 'Blog', infiltrator: 'Jornal', category: 'Leitura' },
         { majority: 'Hotel', infiltrator: 'Pousada', category: 'Lugar' },
-        { majority: 'Pousada', infiltrator: 'Hotel', category: 'Lugar' }, // Invertido
+        { majority: 'Pousada', infiltrator: 'Hotel', category: 'Lugar' },
         { majority: 'Montanha', infiltrator: 'Vale', category: 'Geografia' },
-        { majority: 'Vale', infiltrator: 'Montanha', category: 'Geografia' }, // Invertido
+        { majority: 'Vale', infiltrator: 'Montanha', category: 'Geografia' },
         { majority: 'Escultura', infiltrator: 'Fotografia', category: 'Arte' },
-        { majority: 'Fotografia', infiltrator: 'Escultura', category: 'Arte' }, // Invertido
+        { majority: 'Fotografia', infiltrator: 'Escultura', category: 'Arte' },
         { majority: 'Cobre', infiltrator: 'Bronze', category: 'Metal' },
-        { majority: 'Bronze', infiltrator: 'Cobre', category: 'Metal' }, // Invertido
+        { majority: 'Bronze', infiltrator: 'Cobre', category: 'Metal' },
         { majority: 'Faca', infiltrator: 'Tesoura', category: 'Utensílio' },
-        { majority: 'Tesoura', infiltrator: 'Faca', category: 'Utensílio' }, // Invertido
+        { majority: 'Tesoura', infiltrator: 'Faca', category: 'Utensílio' },
         { majority: 'Mesa', infiltrator: 'Cadeira', category: 'Móvel' },
-        { majority: 'Cadeira', infiltrator: 'Mesa', category: 'Móvel' } // Invertido
+        { majority: 'Cadeira', infiltrator: 'Mesa', category: 'Móvel' }
     ];
 
-    
     const boboWords = [
         { word: 'Foguete', category: 'Espacial' },
         { word: 'Dragão', category: 'Fantasia' },
@@ -489,7 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function triggerPreDiscussionEvent() {
-        if (!gameSettings.events || Math.random() > 0.6) {
+        if (!gameSettings.events || Math.random() > 0.20) {
             startDiscussionPhase();
             return;
         }
@@ -511,9 +510,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const eventId = possibleEvents[Math.floor(Math.random() * possibleEvents.length)];
         const event = randomEvents.find(e => e.id === eventId);
-        activeEvent = { name: event.name, description: event.description, action: event.action, details: {} };
+        activeEvent = { id: event.id, name: event.name, description: event.description, details: {} };
 
-        if (event.action === 'pairVote') {
+        if (event.id === 'pairVote') {
             let alivePlayerNames = players.filter(p => p.isAlive).map(p => p.name);
             alivePlayerNames.sort(() => Math.random() - 0.5);
             const pairs = [];
@@ -546,7 +545,7 @@ document.addEventListener('DOMContentLoaded', () => {
         playersListDiv.innerHTML = '';
         const alivePlayers = players.filter(p => p.isAlive);
 
-        if (activeEvent && activeEvent.action === 'pairVote') {
+        if (activeEvent && activeEvent.id === 'pairVote') {
             const pairs = activeEvent.details.pairs;
             pairs.forEach((pair, pairIndex) => {
                 pair.forEach(playerName => {
@@ -629,7 +628,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function triggerPostEliminationEvent() {
-        if (!gameSettings.events || Math.random() > 0.6) {
+        if (!gameSettings.events || Math.random() > 0.20) {
             startRound();
             return;
         }
@@ -646,10 +645,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const eventId = possibleEvents[Math.floor(Math.random() * possibleEvents.length)];
         const event = randomEvents.find(e => e.id === eventId);
-        activeEvent = { name: event.name, description: event.description, action: event.action, details: {} };
+        activeEvent = { id: event.id, name: event.name, description: event.description, details: {} };
 
         const randomEliminated = eliminatedPlayers[Math.floor(Math.random() * eliminatedPlayers.length)];
-        let revealText = (event.action === 'revealWordAndRole')
+        let revealText = (event.id === 'revealWordAndRole')
             ? `A palavra de ${randomEliminated.name} (${randomEliminated.role}) era: "${randomEliminated.word}"`
             : `A palavra de um jogador eliminado era: "${randomEliminated.word}"`;
         activeEvent.description = event.description + `\n\n${revealText}`;
