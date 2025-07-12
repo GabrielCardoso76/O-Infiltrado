@@ -33,7 +33,7 @@ function assignRolesAndWords(names) {
     players.sort(() => Math.random() - 0.5);
 }
 
-function showActionUIForPlayer(player) {
+function showActionUIForPlayer(player, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn) {
     actionUiContainer.innerHTML = '';
     let hasAction = false;
     let defaultMessage = 'Processando...';
@@ -169,7 +169,7 @@ function showActionUIForPlayer(player) {
         clearInterval(timerInterval);
         actionPhase.currentPlayerIndex++;
         if (actionPhase.currentPlayerIndex < players.length) {
-            runPlayerActionTurn();
+            runPlayerActionTurn(document.getElementById('action-phase-instruction'), document.getElementById('action-ui-container'), document.getElementById('action-phase-message'), document.getElementById('action-phase-continue-btn'), document.getElementById('action-timer-display'));
         } else {
             processAllActions();
             triggerPreDiscussionEvent();

@@ -67,7 +67,7 @@ function randomizeRoles(playerCount) {
     });
 }
 
-function startRound() {
+function startRound(actionPhaseTitle, screens, actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay) {
     roundNumber++;
     activeEvent = null;
     const actionRoles = [];
@@ -79,24 +79,24 @@ function startRound() {
     if (gameSettings.mimico) actionRoles.push('mimico');
 
     if (actionRoles.length > 0) {
-        startActionPhase(actionRoles);
+        startActionPhase(actionRoles, actionPhaseTitle, screens, actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay);
     } else {
         triggerPreDiscussionEvent();
     }
 }
 
-function startActionPhase(actionTypes) {
+function startActionPhase(actionTypes, actionPhaseTitle, screens, actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay) {
     actionPhase.activeRoles = actionTypes;
     actionPhase.currentPlayerIndex = 0;
     actionPhase.protectionChoice = null;
     actionPhase.investigationChoice = null;
 
     actionPhaseTitle.textContent = 'Fase de Ação Secreta';
-    switchScreen('actionPhase');
-    runPlayerActionTurn();
+    switchScreen(screens, 'actionPhase');
+    runPlayerActionTurn(actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay);
 }
 
-function runPlayerActionTurn() {
+function runPlayerActionTurn(actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay) {
     const player = players[actionPhase.currentPlayerIndex];
     actionPhaseInstruction.textContent = `Passe o celular para ${player.name}`;
     actionUiContainer.innerHTML = '';
@@ -130,7 +130,7 @@ function runPlayerActionTurn() {
             }
         }, 1000);
 
-        showActionUIForPlayer(player);
+        showActionUIForPlayer(player, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn);
     };
 }
 

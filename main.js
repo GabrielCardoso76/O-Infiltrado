@@ -172,6 +172,26 @@ document.addEventListener('DOMContentLoaded', () => {
             revelationMode: document.querySelector('input[name="revelationMode"]:checked').value,
             finalRevelation: document.querySelector('input[name="finalRevelation"]:checked').value,
         };
+
+        const specialRolesCount = [
+            gameSettings.bobo,
+            gameSettings.cumplice,
+            gameSettings.anjo,
+            gameSettings.detetive,
+            gameSettings.vidente,
+            gameSettings.coveiro,
+            gameSettings.agenteDuplo,
+            gameSettings.mimico
+        ].filter(Boolean).length;
+
+        const playerNames = playerNamesInput.value.trim().split(' ').filter(name => name);
+        const requiredPlayers = specialRolesCount + 2; // Infiltrado + 1 Maioria
+
+        if (playerNames.length < requiredPlayers) {
+            alert(`Você selecionou ${specialRolesCount} papéis especiais. São necessários pelo menos ${requiredPlayers} jogadores para esta configuração (incluindo Infiltrado e Maioria).`);
+            return;
+        }
+
         initializeGame(playerNamesInput, screens, playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn, startPlayerInfo);
     });
 
@@ -205,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentPlayerIndex++;
             setupRevealPhase(playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn);
         } else {
-            startRound();
+            startRound(actionPhaseTitle, screens, actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay);
         }
     });
 
@@ -214,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
         switchScreen(screens, 'mainMenu');
     });
 
-    skipRoundBtn.addEventListener('click', startRound);
+    skipRoundBtn.addEventListener('click', () => startRound(actionPhaseTitle, screens, actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay));
 
     document.querySelectorAll('.info-icon').forEach(icon => {
         icon.addEventListener('click', (e) => {
@@ -247,9 +267,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof callback === 'function') callback();
     };
 
-    closeInfoModal.addEventListener('click', handleInfoModalClose);
-    infoModalContinueBtn.addEventListener('click', handleInfoModalClose);
-    closeEventModal.addEventListener('click', handleEventModalClose);
+    infoModalContinueBtn.addEventListener('click', () => {
+        const callback = infoModalContinueBtn.onclick;
+        infoModal.style.display = 'none';
+        infoModalContinueBtn.onclick = null;
+        if (typeof callback === 'function') callback();
+    });
+    closeEventModal.addEventListener('click', () => {
+        const callback = closeEventModal.onclick;
+        eventModal.style.display = 'none';
+        closeEventModal.onclick = null;
+        if (typeof callback === 'function') callback();
+    });
     closeRevealModalBtn.addEventListener('click', () => reRevealModal.style.display = 'none');
     closeConfirmModalBtn.addEventListener('click', () => confirmEliminationModal.style.display = 'none');
     cancelEliminateBtn.addEventListener('click', () => confirmEliminationModal.style.display = 'none');
