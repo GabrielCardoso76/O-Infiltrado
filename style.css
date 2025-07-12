@@ -135,7 +135,7 @@ input[type="text"] {
 
 .custom-options { margin: 20px 0; text-align: left; display: flex; flex-direction: column; gap: 15px; }
 .option-item { display: flex; justify-content: space-between; align-items: center; background-color: #333; padding: 15px; border-radius: 8px; }
-.option-item-sub { flex-direction: column; align-items: flex-start; gap: 10px; padding-top: 10px; padding-bottom: 10px; background-color: #2a2a2a; }
+.option-item-sub { flex-direction: column; align-items: flex-start; gap: 10px; padding: 15px; background-color: #2a2a2a; border-radius: 8px; }
 .option-item-sub.hidden { display: none; }
 .radio-group { display: flex; gap: 20px; }
 .slider-container { flex-direction: column; align-items: flex-start; gap: 10px; }
@@ -165,6 +165,11 @@ input:checked + .slider:before { transform: translateX(22px); }
 #action-ui-container .player-list-action .player-name { display: block; padding: 10px; margin-bottom: 5px; background-color: #444; border-radius: 5px; cursor: pointer; }
 #action-ui-container .player-list-action .player-name:hover { background-color: #555; }
 #action-ui-container .player-list-action .player-name.disabled { background-color: #222; color: #666; cursor: not-allowed; }
+
+#specific-events-list .option-item {
+    font-size: 0.9rem;
+    padding: 10px;
+}
 
 .pair-color-1 { border-left-color: #ff5722; }
 .pair-color-2 { border-left-color: #ffeb3b; }

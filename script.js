@@ -29,15 +29,16 @@ document.addEventListener('DOMContentLoaded', () => {
         anjo: { title: 'Anjo da Guarda', description: 'A cada rodada, escolhe secretamente um jogador para proteger. Se o jogador protegido for o mais votado, a eliminação é cancelada. O Anjo não pode proteger a mesma pessoa duas vezes seguidas.' },
         detetive: { title: 'O Detetive', description: 'A cada rodada, investiga secretamente um jogador. No modo "Rápido", o resultado sai na hora. No modo "Lento", o resultado chega apenas na rodada seguinte.' },
         vidente: { title: 'O Vidente', description: 'A cada rodada, tem uma pequena chance de descobrir secretamente o nome de outro jogador que também está do lado da Maioria.'},
-        eventos: { title: 'Eventos Aleatórios', description: 'Se ativado, um evento surpresa pode acontecer após uma eliminação, mudando as regras da próxima rodada.' }
+        eventos: { title: 'Eventos Aleatórios', description: 'Se ativado, um evento surpresa pode acontecer após uma eliminação, mudando as regras da próxima rodada.' },
+        'random-mode': { title: 'Modo Aleatório', description: 'Ativa uma seleção aleatória de papéis especiais a cada partida, dependendo do número de jogadores. Surpresa total!'}
     };
 
     const randomEvents = [
-        { name: 'Voto em Dupla', description: 'Nesta rodada, a votação será em duplas! Os jogadores com a mesma cor na borda devem discutir e votar juntos em uma única pessoa.', type: 'pre-discussion' },
-        { name: 'Palavra e Papel Revelados', description: 'A palavra e o papel de um jogador eliminado aleatoriamente serão revelados a todos, dando uma nova pista!', type: 'post-elimination' },
-        { name: 'Palavra Misteriosa Revelada', description: 'A palavra de um jogador eliminado aleatoriamente será revelada, mas não o seu papel. Usem a informação com sabedoria!', type: 'post-elimination' },
-        { name: 'Rodada Silenciosa', description: 'Proibido falar! A discussão desta rodada deve ser feita apenas com mímica e gestos.', type: 'pre-discussion' },
-        { name: 'Voto Aberto', description: 'Sem segredos! Nesta rodada, todos devem anunciar seu voto abertamente, um de cada vez, em sentido horário.', type: 'pre-discussion' }
+        { id: 'pairVote', name: 'Voto em Dupla', description: 'Nesta rodada, a votação será em duplas! Os jogadores com a mesma cor na borda devem discutir e votar juntos em uma única pessoa.', type: 'pre-discussion' },
+        { id: 'revealWordAndRole', name: 'Palavra e Papel Revelados', description: 'A palavra e o papel de um jogador eliminado aleatoriamente serão revelados a todos, dando uma nova pista!', type: 'post-elimination' },
+        { id: 'revealWordOnly', name: 'Palavra Misteriosa Revelada', description: 'A palavra de um jogador eliminado aleatoriamente será revelada, mas não o seu papel. Usem a informação com sabedoria!', type: 'post-elimination' },
+        { id: 'silentRound', name: 'Rodada Silenciosa', description: 'Proibido falar! A discussão desta rodada deve ser feita apenas com mímica e gestos.', type: 'pre-discussion' },
+        { id: 'openVote', name: 'Voto Aberto', description: 'Sem segredos! Nesta rodada, todos devem anunciar seu voto abertamente, um de cada vez, em sentido horário.', type: 'pre-discussion' }
     ];
 
     let players = [];
@@ -78,6 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const rolesListDetailed = document.getElementById('roles-list-detailed');
     const eventsListDetailed = document.getElementById('events-list-detailed');
     const backToMenuBtn = document.getElementById('back-to-menu-btn');
+    const randomModeToggle = document.getElementById('random-mode-toggle');
+    const manualRolesContainer = document.getElementById('manual-roles-container');
     const boboToggle = document.getElementById('bobo-toggle');
     const cumpliceToggle = document.getElementById('cumplice-toggle');
     const anjoToggle = document.getElementById('anjo-toggle');
@@ -85,8 +88,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const videnteToggle = document.getElementById('vidente-toggle');
     const detectiveModeOption = document.getElementById('detective-mode-option');
     const eventsToggle = document.getElementById('events-toggle');
-    const actionTimerSlider = document.getElementById('action-timer-slider');
-    const actionTimerValue = document.getElementById('action-timer-value');
+    const eventsConfigContainer = document.getElementById('events-config-container');
+    const specificEventsList = document.getElementById('specific-events-list');
+    const minActionTimerSlider = document.getElementById('min-action-timer-slider');
+    const maxActionTimerSlider = document.getElementById('max-action-timer-slider');
+    const minTimerValue = document.getElementById('min-timer-value');
+    const maxTimerValue = document.getElementById('max-timer-value');
     const startCustomGameBtn = document.getElementById('start-custom-game-btn');
     const playerTurnTitle = document.getElementById('player-turn-title');
     const roleDisplay = document.getElementById('role-display');
@@ -132,6 +139,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function initializeGame() {
         const names = playerNamesInput.value.trim().split(' ').filter(name => name);
         let requiredPlayers = 3;
+        
+        if(gameSettings.randomMode) {
+            randomizeRoles(names.length);
+        }
+
         if (gameSettings.bobo || gameSettings.cumplice || gameSettings.anjo || gameSettings.detetive || gameSettings.vidente) requiredPlayers = 4;
         if (names.length < requiredPlayers) {
             alert(`São necessários pelo menos ${requiredPlayers} jogadores para esta configuração.`);
@@ -147,6 +159,27 @@ document.addEventListener('DOMContentLoaded', () => {
         startPlayerInfo.textContent = '';
         setupRevealPhase();
         switchScreen('reveal');
+    }
+    
+    function randomizeRoles(playerCount) {
+        const allRoles = ['bobo', 'cumplice', 'anjo', 'detetive', 'vidente'];
+        gameSettings.bobo = false;
+        gameSettings.cumplice = false;
+        gameSettings.anjo = false;
+        gameSettings.detetive = false;
+        gameSettings.vidente = false;
+
+        if (playerCount < 4) return;
+        
+        const maxRoles = Math.min(allRoles.length, playerCount - 3);
+        const numToActivate = Math.floor(Math.random() * (maxRoles + 1));
+        
+        const shuffledRoles = allRoles.sort(() => 0.5 - Math.random());
+        const rolesToActivate = shuffledRoles.slice(0, numToActivate);
+        
+        rolesToActivate.forEach(role => {
+            gameSettings[role] = true;
+        });
     }
 
     function assignRolesAndWords(names) {
@@ -222,13 +255,17 @@ document.addEventListener('DOMContentLoaded', () => {
         actionPhaseMessage.textContent = 'Clique em "Pronto" quando receber o celular.';
         actionPhaseContinueBtn.textContent = 'Pronto';
         actionPhaseContinueBtn.disabled = false;
-        actionTimerDisplay.textContent = gameSettings.actionTimer;
+        
+        const minTime = gameSettings.minActionTimer;
+        const maxTime = gameSettings.maxActionTimer;
+        const randomTime = Math.floor(Math.random() * (maxTime - minTime + 1)) + minTime;
+        actionTimerDisplay.textContent = randomTime;
         
         actionPhaseContinueBtn.onclick = () => {
             actionPhaseInstruction.textContent = 'Ação Secreta';
             actionPhaseMessage.style.display = 'none';
             
-            let timeLeft = gameSettings.actionTimer;
+            let timeLeft = randomTime;
             actionTimerDisplay.textContent = timeLeft;
             actionPhaseContinueBtn.disabled = true;
             actionPhaseContinueBtn.textContent = `Aguarde ${timeLeft}s`;
@@ -375,10 +412,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const alivePlayersCount = players.filter(p => p.isAlive).length;
-        let possibleEvents = randomEvents.filter(e => e.type === 'pre-discussion');
+        let possibleEvents = gameSettings.enabledEvents.filter(id => {
+            const eventData = randomEvents.find(e => e.id === id);
+            return eventData && eventData.type === 'pre-discussion';
+        });
 
         if (alivePlayersCount < 5) {
-            possibleEvents = possibleEvents.filter(event => event.action !== 'pairVote');
+            possibleEvents = possibleEvents.filter(id => id !== 'pairVote');
         }
 
         if (possibleEvents.length === 0) {
@@ -386,7 +426,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const event = possibleEvents[Math.floor(Math.random() * possibleEvents.length)];
+        const eventId = possibleEvents[Math.floor(Math.random() * possibleEvents.length)];
+        const event = randomEvents.find(e => e.id === eventId);
         activeEvent = { name: event.name, description: event.description, action: event.action, details: {} };
 
         if (event.action === 'pairVote') {
@@ -510,13 +551,18 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        let possibleEvents = randomEvents.filter(e => e.type === 'post-elimination');
-        if (eliminatedPlayers.length === 0) {
+        let possibleEvents = gameSettings.enabledEvents.filter(id => {
+            const eventData = randomEvents.find(e => e.id === id);
+            return eventData && eventData.type === 'post-elimination';
+        });
+        
+        if (eliminatedPlayers.length === 0 || possibleEvents.length === 0) {
             startRound();
             return;
         }
 
-        const event = possibleEvents[Math.floor(Math.random() * possibleEvents.length)];
+        const eventId = possibleEvents[Math.floor(Math.random() * possibleEvents.length)];
+        const event = randomEvents.find(e => e.id === eventId);
         activeEvent = { name: event.name, description: event.description, action: event.action, details: {} };
 
         const randomEliminated = eliminatedPlayers[Math.floor(Math.random() * eliminatedPlayers.length)];
@@ -537,9 +583,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function endGame(winnerType, winningPlayer = null) {
         switchScreen('end');
         let resultText = '';
-        players.forEach(p => {
-            resultText += `${p.name} era ${p.role} com a palavra "${p.word}".\n`;
-        });
+        const infiltrator = players.find(p => p.role === 'Infiltrado');
+        
+        if (gameSettings.isClassic) {
+            resultText = `O Infiltrado era ${infiltrator.name} com a palavra "${infiltrator.word}".\nA palavra da Maioria era "${currentWordPair.majority}".`;
+        } else {
+            players.forEach(p => {
+                resultText += `${p.name} era ${p.role} com a palavra "${p.word}".\n`;
+            });
+        }
         gameResultInfo.textContent = resultText;
 
         if (winnerType === 'bobo') {
@@ -565,7 +617,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showReRevealModal(role, word) {
-        modalRole.textContent = role;
+        modalRole.textContent = gameSettings.isClassic ? '' : role;
         modalWord.textContent = word;
         modalWord.classList.add('is-hidden');
         reRevealModal.style.display = 'block';
@@ -576,7 +628,7 @@ document.addEventListener('DOMContentLoaded', () => {
         eventsListDetailed.innerHTML = '';
         const rolesToDisplay = {bobo: rules.bobo, cumplice: rules.cumplice, anjo: rules.anjo, detetive: rules.detetive, vidente: rules.vidente};
         for (const key in rolesToDisplay) {
-            const rule = rules[key];
+            const rule = rolesToDisplay[key];
             const item = document.createElement('div');
             item.className = 'rule-item-detailed';
             item.innerHTML = `<strong>${rule.title}</strong><p>${rule.description}</p>`;
@@ -590,10 +642,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function populateEventToggles() {
+        specificEventsList.innerHTML = '';
+        randomEvents.forEach(event => {
+            const item = document.createElement('div');
+            item.className = 'option-item';
+            item.innerHTML = `
+                <label for="event-toggle-${event.id}">${event.name}</label>
+                <label class="switch"><input type="checkbox" id="event-toggle-${event.id}" data-event-id="${event.id}" checked><span class="slider"></span></label>
+            `;
+            specificEventsList.appendChild(item);
+        });
+    }
+
     populateHowToPlayScreen();
+    populateEventToggles();
 
     classicGameBtn.addEventListener('click', () => {
-        gameSettings = { bobo: false, cumplice: false, anjo: false, detetive: false, vidente: false, events: false, actionTimer: 10 };
+        gameSettings = { isClassic: true, randomMode: false, bobo: false, cumplice: false, anjo: false, detetive: false, vidente: false, events: false, minActionTimer: 5, maxActionTimer: 15 };
         initializeGame();
     });
 
@@ -609,17 +675,46 @@ document.addEventListener('DOMContentLoaded', () => {
     backToMenuBtn.addEventListener('click', () => switchScreen('mainMenu'));
     howToPlayBtn.addEventListener('click', () => switchScreen('howToPlay'));
     backToMenuFromHowToPlayBtn.addEventListener('click', () => switchScreen('mainMenu'));
+    
+    randomModeToggle.addEventListener('change', () => {
+        manualRolesContainer.classList.toggle('hidden', randomModeToggle.checked);
+    });
+    
+    eventsToggle.addEventListener('change', () => {
+        eventsConfigContainer.classList.toggle('hidden', !eventsToggle.checked);
+    });
 
     detetiveToggle.addEventListener('change', () => {
         detectiveModeOption.classList.toggle('hidden', !detetiveToggle.checked);
     });
 
-    actionTimerSlider.addEventListener('input', (e) => {
-        actionTimerValue.textContent = e.target.value;
+    minActionTimerSlider.addEventListener('input', (e) => {
+        minTimerValue.textContent = e.target.value;
+        if (parseInt(e.target.value) > parseInt(maxActionTimerSlider.value)) {
+            maxActionTimerSlider.value = e.target.value;
+            maxTimerValue.textContent = e.target.value;
+        }
+    });
+    
+    maxActionTimerSlider.addEventListener('input', (e) => {
+        maxTimerValue.textContent = e.target.value;
+        if (parseInt(e.target.value) < parseInt(minActionTimerSlider.value)) {
+            minActionTimerSlider.value = e.target.value;
+            minTimerValue.textContent = e.target.value;
+        }
     });
 
     startCustomGameBtn.addEventListener('click', () => {
+        const enabledEvents = [];
+        if (eventsToggle.checked) {
+            document.querySelectorAll('#specific-events-list input[type="checkbox"]:checked').forEach(checkbox => {
+                enabledEvents.push(checkbox.dataset.eventId);
+            });
+        }
+
         gameSettings = {
+            isClassic: false,
+            randomMode: randomModeToggle.checked,
             bobo: boboToggle.checked,
             cumplice: cumpliceToggle.checked,
             anjo: anjoToggle.checked,
@@ -627,7 +722,9 @@ document.addEventListener('DOMContentLoaded', () => {
             vidente: videnteToggle.checked,
             detectiveMode: document.querySelector('input[name="detectiveMode"]:checked').value,
             events: eventsToggle.checked,
-            actionTimer: parseInt(actionTimerSlider.value, 10),
+            enabledEvents: enabledEvents,
+            minActionTimer: parseInt(minActionTimerSlider.value, 10),
+            maxActionTimer: parseInt(maxActionTimerSlider.value, 10),
         };
         initializeGame();
     });
@@ -635,7 +732,9 @@ document.addEventListener('DOMContentLoaded', () => {
     wordCard.addEventListener('click', () => {
         if (!wordRevealed) {
             const currentPlayer = players[currentPlayerIndex];
-            roleDisplay.textContent = currentPlayer.role;
+            if (!gameSettings.isClassic) {
+                roleDisplay.textContent = currentPlayer.role;
+            }
             wordDisplay.textContent = currentPlayer.word;
             wordCard.style.filter = 'none';
             wordRevealed = true;
@@ -688,18 +787,40 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     modalWord.addEventListener('click', () => modalWord.classList.toggle('is-hidden'));
-    closeRevealModalBtn.addEventListener('click', () => reRevealModal.style.display = 'none');
-    cancelEliminateBtn.addEventListener('click', () => confirmEliminationModal.style.display = 'none');
-    closeConfirmModalBtn.addEventListener('click', () => confirmEliminationModal.style.display = 'none');
     
-    const allCloseBtns = [closeInfoModal, closeEventModal, closeRevealModalBtn, closeConfirmModalBtn];
-    allCloseBtns.forEach(btn => {
-        if (btn) btn.addEventListener('click', () => btn.closest('.modal').style.display = 'none');
-    });
+    const handleInfoModalClose = () => {
+        const callback = infoModalContinueBtn.onclick;
+        infoModal.style.display = 'none';
+        infoModalContinueBtn.onclick = null;
+        if (typeof callback === 'function') callback();
+    };
+
+    const handleEventModalClose = () => {
+        const callback = closeEventModal.onclick;
+        eventModal.style.display = 'none';
+        closeEventModal.onclick = null;
+        if (typeof callback === 'function') callback();
+    };
+
+    closeInfoModal.addEventListener('click', handleInfoModalClose);
+    closeEventModal.addEventListener('click', handleEventModalClose);
+    closeRevealModalBtn.addEventListener('click', () => reRevealModal.style.display = 'none');
+    closeConfirmModalBtn.addEventListener('click', () => confirmEliminationModal.style.display = 'none');
+    cancelEliminateBtn.addEventListener('click', () => confirmEliminationModal.style.display = 'none');
 
     window.addEventListener('click', (event) => {
         if (event.target.classList.contains('modal')) {
-            event.target.style.display = 'none';
+            switch (event.target.id) {
+                case 'event-modal':
+                    handleEventModalClose();
+                    break;
+                case 'info-modal':
+                    handleInfoModalClose();
+                    break;
+                default:
+                    event.target.style.display = 'none';
+                    break;
+            }
         }
     });
 });

@@ -36,39 +36,54 @@
             <h2>Partida Personalizada</h2>
             <div class="custom-options">
                 <div class="option-item">
-                    <label for="bobo-toggle">O Bobo <span class="info-icon" data-rule="bobo">?</span></label>
-                    <label class="switch"><input type="checkbox" id="bobo-toggle"><span class="slider"></span></label>
+                    <label for="random-mode-toggle">Modo Aleatório <span class="info-icon" data-rule="random-mode">?</span></label>
+                    <label class="switch"><input type="checkbox" id="random-mode-toggle"><span class="slider"></span></label>
                 </div>
-                <div class="option-item">
-                    <label for="cumplice-toggle">O Cúmplice <span class="info-icon" data-rule="cumplice">?</span></label>
-                    <label class="switch"><input type="checkbox" id="cumplice-toggle"><span class="slider"></span></label>
-                </div>
-                <div class="option-item">
-                    <label for="anjo-toggle">Anjo da Guarda <span class="info-icon" data-rule="anjo">?</span></label>
-                    <label class="switch"><input type="checkbox" id="anjo-toggle"><span class="slider"></span></label>
-                </div>
-                <div class="option-item">
-                    <label for="detetive-toggle">Detetive <span class="info-icon" data-rule="detetive">?</span></label>
-                    <label class="switch"><input type="checkbox" id="detetive-toggle"><span class="slider"></span></label>
-                </div>
-                 <div id="detective-mode-option" class="option-item-sub hidden">
-                    <label>Modo do Detetive</label>
-                    <div class="radio-group">
-                        <label><input type="radio" name="detectiveMode" value="rapido" checked> Rápido</label>
-                        <label><input type="radio" name="detectiveMode" value="lento"> Lento</label>
+                
+                <div id="manual-roles-container">
+                    <div class="option-item">
+                        <label for="bobo-toggle">O Bobo <span class="info-icon" data-rule="bobo">?</span></label>
+                        <label class="switch"><input type="checkbox" id="bobo-toggle"><span class="slider"></span></label>
+                    </div>
+                    <div class="option-item">
+                        <label for="cumplice-toggle">O Cúmplice <span class="info-icon" data-rule="cumplice">?</span></label>
+                        <label class="switch"><input type="checkbox" id="cumplice-toggle"><span class="slider"></span></label>
+                    </div>
+                    <div class="option-item">
+                        <label for="anjo-toggle">Anjo da Guarda <span class="info-icon" data-rule="anjo">?</span></label>
+                        <label class="switch"><input type="checkbox" id="anjo-toggle"><span class="slider"></span></label>
+                    </div>
+                    <div class="option-item">
+                        <label for="detetive-toggle">Detetive <span class="info-icon" data-rule="detetive">?</span></label>
+                        <label class="switch"><input type="checkbox" id="detetive-toggle"><span class="slider"></span></label>
+                    </div>
+                     <div id="detective-mode-option" class="option-item-sub hidden">
+                        <label>Modo do Detetive</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="detectiveMode" value="rapido" checked> Rápido</label>
+                            <label><input type="radio" name="detectiveMode" value="lento"> Lento</label>
+                        </div>
+                    </div>
+                     <div class="option-item">
+                        <label for="vidente-toggle">O Vidente <span class="info-icon" data-rule="vidente">?</span></label>
+                        <label class="switch"><input type="checkbox" id="vidente-toggle"><span class="slider"></span></label>
                     </div>
                 </div>
-                 <div class="option-item">
-                    <label for="vidente-toggle">O Vidente <span class="info-icon" data-rule="vidente">?</span></label>
-                    <label class="switch"><input type="checkbox" id="vidente-toggle"><span class="slider"></span></label>
-                </div>
+
                 <div class="option-item">
                     <label for="events-toggle">Eventos Aleatórios <span class="info-icon" data-rule="eventos">?</span></label>
                     <label class="switch"><input type="checkbox" id="events-toggle"><span class="slider"></span></label>
                 </div>
+
+                <div id="events-config-container" class="option-item-sub hidden">
+                    <h4>Eventos Ativos</h4>
+                    <div id="specific-events-list"></div>
+                </div>
+
                 <div class="option-item slider-container">
-                    <label for="action-timer-slider">Tempo por Ação: <span id="action-timer-value">10</span>s</label>
-                    <input type="range" id="action-timer-slider" min="5" max="30" value="10">
+                    <label>Tempo de Ação (Aleatório)</label>
+                    <div>Min: <span id="min-timer-value">5</span>s <input type="range" id="min-action-timer-slider" min="3" max="20" value="5"></div>
+                    <div>Max: <span id="max-timer-value">15</span>s <input type="range" id="max-action-timer-slider" min="5" max="30" value="15"></div>
                 </div>
             </div>
             <button id="start-custom-game-btn" class="btn">Começar Jogo</button>
