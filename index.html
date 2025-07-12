@@ -34,28 +34,41 @@
 
         <div id="custom-setup-screen" class="screen">
             <h2>Partida Personalizada</h2>
-            <p>Escolha os papéis e regras para esta partida.</p>
             <div class="custom-options">
                 <div class="option-item">
                     <label for="bobo-toggle">O Bobo <span class="info-icon" data-rule="bobo">?</span></label>
-                    <label class="switch">
-                        <input type="checkbox" id="bobo-toggle">
-                        <span class="slider"></span>
-                    </label>
+                    <label class="switch"><input type="checkbox" id="bobo-toggle"><span class="slider"></span></label>
                 </div>
                 <div class="option-item">
                     <label for="cumplice-toggle">O Cúmplice <span class="info-icon" data-rule="cumplice">?</span></label>
-                    <label class="switch">
-                        <input type="checkbox" id="cumplice-toggle">
-                        <span class="slider"></span>
-                    </label>
+                    <label class="switch"><input type="checkbox" id="cumplice-toggle"><span class="slider"></span></label>
+                </div>
+                <div class="option-item">
+                    <label for="anjo-toggle">Anjo da Guarda <span class="info-icon" data-rule="anjo">?</span></label>
+                    <label class="switch"><input type="checkbox" id="anjo-toggle"><span class="slider"></span></label>
+                </div>
+                <div class="option-item">
+                    <label for="detetive-toggle">Detetive <span class="info-icon" data-rule="detetive">?</span></label>
+                    <label class="switch"><input type="checkbox" id="detetive-toggle"><span class="slider"></span></label>
+                </div>
+                 <div id="detective-mode-option" class="option-item-sub hidden">
+                    <label>Modo do Detetive</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="detectiveMode" value="rapido" checked> Rápido</label>
+                        <label><input type="radio" name="detectiveMode" value="lento"> Lento</label>
+                    </div>
+                </div>
+                 <div class="option-item">
+                    <label for="vidente-toggle">O Vidente <span class="info-icon" data-rule="vidente">?</span></label>
+                    <label class="switch"><input type="checkbox" id="vidente-toggle"><span class="slider"></span></label>
                 </div>
                 <div class="option-item">
                     <label for="events-toggle">Eventos Aleatórios <span class="info-icon" data-rule="eventos">?</span></label>
-                    <label class="switch">
-                        <input type="checkbox" id="events-toggle">
-                        <span class="slider"></span>
-                    </label>
+                    <label class="switch"><input type="checkbox" id="events-toggle"><span class="slider"></span></label>
+                </div>
+                <div class="option-item slider-container">
+                    <label for="action-timer-slider">Tempo por Ação: <span id="action-timer-value">10</span>s</label>
+                    <input type="range" id="action-timer-slider" min="5" max="30" value="10">
                 </div>
             </div>
             <button id="start-custom-game-btn" class="btn">Começar Jogo</button>
@@ -75,11 +88,23 @@
             </div>
         </div>
 
+        <div id="action-phase-screen" class="screen">
+            <h2 id="action-phase-title">Fase de Ação</h2>
+            <p id="action-phase-instruction">Passe o celular para o próximo jogador.</p>
+            <div id="action-phase-content">
+                <div id="action-timer-display">10</div>
+                <div id="action-ui-container"></div>
+                <p id="action-phase-message">Processando...</p>
+            </div>
+            <button id="action-phase-continue-btn" class="btn" disabled>Aguarde</button>
+        </div>
+
         <div id="game-screen" class="screen">
             <h2 id="start-player-info"></h2>
             <p>Jogadores vivos:</p>
             <div id="players-list"></div>
-            <p class="game-instructions">Clique no seu nome para rever sua palavra secreta. Discutam e votem para eliminar quem vocês acham que é o infiltrado.</p>
+            <button id="skip-round-btn" class="btn btn-secondary">Pular Rodada / Empate</button>
+            <p class="game-instructions">Clique no seu nome para rever suas informações. Discutam e votem para eliminar quem vocês acham que é o infiltrado.</p>
         </div>
 
         <div id="end-screen" class="screen">
@@ -89,11 +114,12 @@
         </div>
     </div>
 
-    <div id="rules-modal" class="modal">
+    <div id="info-modal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" id="close-rules-modal">&times;</span>
-            <h3 id="rule-title">Título da Regra</h3>
-            <p id="rule-description">Descrição da regra aqui.</p>
+            <span class="close-btn" id="close-info-modal">&times;</span>
+            <h3 id="info-modal-title">Título</h3>
+            <p id="info-modal-description">Descrição.</p>
+            <button id="info-modal-continue-btn" class="btn">Continuar</button>
         </div>
     </div>
 
