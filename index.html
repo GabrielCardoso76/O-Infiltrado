@@ -12,6 +12,7 @@
 <body>
 
     <div class="container">
+        <!-- TELA 1: CONFIGURAÇÃO INICIAL -->
         <div id="setup-screen" class="screen active">
             <h1>O Infiltrado</h1>
             <p>Digite os nomes dos jogadores, separados por espaço.</p>
@@ -19,28 +20,54 @@
             <button id="start-game-btn" class="btn">Jogar!</button>
         </div>
 
+        <!-- TELA 2: REVELAR PALAVRAS -->
         <div id="reveal-screen" class="screen">
             <h2 id="player-turn-title">Vez de: Jogador</h2>
-            <p>Aperte para ver sua palavra secreta.</p>
+            <p>Clique no card para ver sua palavra.</p>
             <div id="word-card">
-                <span id="word-display">Clique no botão abaixo</span>
+                <span id="word-display">Clique para revelar</span>
             </div>
-            <button id="show-word-btn" class="btn">Mostrar Palavra</button>
-            <button id="next-player-btn" class="btn btn-secondary">Entendi, passar a vez</button>
+            <div id="reveal-nav">
+                <button id="prev-player-btn" class="btn btn-secondary btn-arrow">←</button>
+                <button id="next-player-btn" class="btn btn-arrow">→</button>
+            </div>
         </div>
 
+        <!-- TELA 3: JOGO PRINCIPAL -->
         <div id="game-screen" class="screen">
             <h2 id="start-player-info"></h2>
             <p>Jogadores vivos:</p>
-            <div id="players-list">
-                </div>
-            <p class="game-instructions">Discutam em turnos e votem para eliminar quem vocês acham que é o infiltrado. Cliquem em "Eliminar" para remover um jogador.</p>
+            <div id="players-list"></div>
+            <p class="game-instructions">Clique no seu nome para rever sua palavra secreta. Discutam e votem para eliminar quem vocês acham que é o infiltrado.</p>
         </div>
 
+        <!-- TELA 4: FIM DE JOGO -->
         <div id="end-screen" class="screen">
             <h2 id="winner-message"></h2>
             <p id="game-result-info"></p>
             <button id="play-again-btn" class="btn">Jogar Novamente</button>
+        </div>
+    </div>
+
+    <!-- MODAL PARA REVER A PALAVRA -->
+    <div id="re-reveal-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-reveal-modal">&times;</span>
+            <p>Sua palavra secreta é:</p>
+            <h3 id="modal-word">PALAVRA</h3>
+        </div>
+    </div>
+
+    <!-- MODAL PARA CONFIRMAR ELIMINAÇÃO -->
+    <div id="confirm-elimination-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-confirm-modal">&times;</span>
+            <p>Tem certeza que deseja eliminar</p>
+            <h3 id="player-to-eliminate-name" style="color: var(--danger-color);">NOME DO JOGADOR</h3>
+            <div id="confirm-buttons">
+                <button id="confirm-eliminate-btn" class="btn btn-danger">Sim, Eliminar</button>
+                <button id="cancel-eliminate-btn" class="btn btn-secondary">Cancelar</button>
+            </div>
         </div>
     </div>
 

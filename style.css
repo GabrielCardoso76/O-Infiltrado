@@ -1,4 +1,4 @@
-/* Estilos Gerais e Variáveis */
+/* --- ESTILOS GERAIS E VARIÁVEIS --- */
 :root {
     --primary-color: #6a11cb;
     --secondary-color: #2575fc;
@@ -13,7 +13,7 @@ body {
     background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
     color: var(--text-color);
     margin: 0;
-    padding: 20px;
+    padding: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,18 +26,19 @@ h1, h2 {
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
-/* Container Principal */
+/* --- CONTAINER PRINCIPAL --- */
 .container {
     background-color: var(--surface-color);
-    padding: 30px;
+    padding: 25px;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     width: 100%;
     max-width: 500px;
     text-align: center;
+    overflow: hidden;
 }
 
-/* Gerenciamento das Telas */
+/* --- GERENCIAMENTO DAS TELAS --- */
 .screen {
     display: none;
 }
@@ -51,7 +52,7 @@ h1, h2 {
     to { opacity: 1; transform: scale(1); }
 }
 
-/* Elementos de Formulário */
+/* --- ELEMENTOS DE FORMULÁRIO --- */
 input[type="text"] {
     width: calc(100% - 24px);
     padding: 12px;
@@ -63,7 +64,7 @@ input[type="text"] {
     font-size: 1rem;
 }
 
-/* Botões */
+/* --- BOTÕES --- */
 .btn {
     background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
     color: white;
@@ -75,7 +76,7 @@ input[type="text"] {
     font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-top: 10px;
+    margin: 5px;
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -86,7 +87,11 @@ input[type="text"] {
 
 .btn-secondary {
     background: #555;
-    display: none; /* Escondido por padrão */
+}
+
+.btn-arrow {
+    font-size: 1.2rem;
+    padding: 10px 15px;
 }
 
 .btn-danger {
@@ -97,7 +102,7 @@ input[type="text"] {
     margin-left: 10px;
 }
 
-/* Tela de Revelação da Palavra */
+/* --- TELA DE REVELAÇÃO --- */
 #word-card {
     background-color: #333;
     border: 2px dashed var(--primary-color);
@@ -105,6 +110,8 @@ input[type="text"] {
     margin: 20px 0;
     border-radius: 10px;
     min-height: 50px;
+    cursor: pointer;
+    transition: filter 0.3s ease;
 }
 
 #word-display {
@@ -113,7 +120,14 @@ input[type="text"] {
     letter-spacing: 2px;
 }
 
-/* Tela Principal do Jogo */
+#reveal-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+}
+
+/* --- TELA PRINCIPAL DO JOGO --- */
 #players-list {
     margin-top: 20px;
     text-align: left;
@@ -130,20 +144,115 @@ input[type="text"] {
     font-size: 1.1rem;
 }
 
+.player-name {
+    cursor: pointer;
+    flex-grow: 1;
+    transition: all 0.2s ease;
+}
+.player-name:hover {
+    opacity: 0.8;
+}
+
 .game-instructions {
     font-size: 0.9rem;
     color: #aaa;
     margin-top: 20px;
 }
 
-/* Tela Final */
+/* --- TELA FINAL --- */
 #winner-message {
     font-size: 2rem;
-    color: #4CAF50; /* Verde para vitória */
 }
 
 #game-result-info {
     font-size: 1.1rem;
     margin-top: 10px;
     color: #ccc;
+}
+
+/* --- MODAIS --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.7);
+    animation: fadeIn 0.3s;
+}
+
+.modal-content {
+    background-color: var(--surface-color);
+    margin: 30% auto;
+    padding: 25px;
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+}
+
+.close-btn {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.close-btn:hover {
+    color: #fff;
+}
+
+#modal-word {
+    color: var(--secondary-color);
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 34px;
+    display: inline-block;
+    padding: 5px 10px;
+}
+
+#modal-word.is-hidden {
+    filter: blur(8px);
+    background-color: #555;
+    color: transparent;
+    user-select: none;
+    border-radius: 5px;
+}
+
+#confirm-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#confirm-buttons .btn-danger {
+    background: var(--danger-color);
+    margin-left: 0;
+}
+
+/* --- AJUSTES PARA CELULARES --- */
+@media (max-width: 500px) {
+    body {
+        padding: 10px;
+        align-items: flex-start;
+        padding-top: 20px;
+    }
+    .container {
+        padding: 20px;
+    }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    .btn { padding: 10px 20px; font-size: 0.9rem; }
+    #word-display { font-size: 1.3rem; }
+    .modal-content { margin: 40% auto; }
 }
