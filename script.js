@@ -1,27 +1,106 @@
 document.addEventListener('DOMContentLoaded', () => {
     const wordPairs = [
-        { majority: 'Carro', infiltrator: 'Moto', category: 'Veículo' }, 
+        { majority: 'Carro', infiltrator: 'Moto', category: 'Veículo' },
+        { majority: 'Moto', infiltrator: 'Carro', category: 'Veículo' }, // Invertido
         { majority: 'Futebol', infiltrator: 'Basquete', category: 'Esporte' },
-        { majority: 'Praia', infiltrator: 'Piscina', category: 'Lugar' }, 
+        { majority: 'Basquete', infiltrator: 'Futebol', category: 'Esporte' }, // Invertido
+        { majority: 'Praia', infiltrator: 'Piscina', category: 'Lugar' },
+        { majority: 'Piscina', infiltrator: 'Praia', category: 'Lugar' }, // Invertido
         { majority: 'Cachorro', infiltrator: 'Gato', category: 'Animal' },
-        { majority: 'Filme', infiltrator: 'Série', category: 'Entretenimento' }, 
+        { majority: 'Gato', infiltrator: 'Cachorro', category: 'Animal' }, // Invertido
+        { majority: 'Filme', infiltrator: 'Série', category: 'Entretenimento' },
+        { majority: 'Série', infiltrator: 'Filme', category: 'Entretenimento' }, // Invertido
         { majority: 'Pizza', infiltrator: 'Hambúrguer', category: 'Comida' },
-        { majority: 'Sol', infiltrator: 'Lua', category: 'Astro' }, 
+        { majority: 'Hambúrguer', infiltrator: 'Pizza', category: 'Comida' }, // Invertido
+        { majority: 'Sol', infiltrator: 'Lua', category: 'Astro' },
+        { majority: 'Lua', infiltrator: 'Sol', category: 'Astro' }, // Invertido
         { majority: 'Computador', infiltrator: 'Celular', category: 'Tecnologia' },
-        { majority: 'Violão', infiltrator: 'Guitarra', category: 'Instrumento Musical' }, 
+        { majority: 'Celular', infiltrator: 'Computador', category: 'Tecnologia' }, // Invertido
+        { majority: 'Violão', infiltrator: 'Guitarra', category: 'Instrumento Musical' },
+        { majority: 'Guitarra', infiltrator: 'Violão', category: 'Instrumento Musical' }, // Invertido
         { majority: 'Café', infiltrator: 'Chá', category: 'Bebida' },
-        { majority: 'Verão', infiltrator: 'Inverno', category: 'Estação do Ano' }, 
+        { majority: 'Chá', infiltrator: 'Café', category: 'Bebida' }, // Invertido
+        { majority: 'Verão', infiltrator: 'Inverno', category: 'Estação do Ano' },
+        { majority: 'Inverno', infiltrator: 'Verão', category: 'Estação do Ano' }, // Invertido
         { majority: 'Brasil', infiltrator: 'Argentina', category: 'País' },
-        { majority: 'Médico', infiltrator: 'Enfermeiro', category: 'Profissão' }, 
+        { majority: 'Argentina', infiltrator: 'Brasil', category: 'País' }, // Invertido
+        { majority: 'Médico', infiltrator: 'Enfermeiro', category: 'Profissão' },
+        { majority: 'Enfermeiro', infiltrator: 'Médico', category: 'Profissão' }, // Invertido
         { majority: 'Livro', infiltrator: 'Revista', category: 'Leitura' },
-        { majority: 'Casa', infiltrator: 'Apartamento', category: 'Moradia' }, 
+        { majority: 'Revista', infiltrator: 'Livro', category: 'Leitura' }, // Invertido
+        { majority: 'Casa', infiltrator: 'Apartamento', category: 'Moradia' },
+        { majority: 'Apartamento', infiltrator: 'Casa', category: 'Moradia' }, // Invertido
         { majority: 'Rio', infiltrator: 'Mar', category: 'Geografia' },
-        { majority: 'Pintura', infiltrator: 'Desenho', category: 'Arte' }, 
+        { majority: 'Mar', infiltrator: 'Rio', category: 'Geografia' }, // Invertido
+        { majority: 'Pintura', infiltrator: 'Desenho', category: 'Arte' },
+        { majority: 'Desenho', infiltrator: 'Pintura', category: 'Arte' }, // Invertido
         { majority: 'Ouro', infiltrator: 'Prata', category: 'Metal' },
-        { majority: 'Garfo', infiltrator: 'Colher', category: 'Utensílio' }, 
-        { majority: 'Cama', infiltrator: 'Sofá', category: 'Móvel' }
+        { majority: 'Prata', infiltrator: 'Ouro', category: 'Metal' }, // Invertido
+        { majority: 'Garfo', infiltrator: 'Colher', category: 'Utensílio' },
+        { majority: 'Colher', infiltrator: 'Garfo', category: 'Utensílio' }, // Invertido
+        { majority: 'Cama', infiltrator: 'Sofá', category: 'Móvel' },
+        { majority: 'Sofá', infiltrator: 'Cama', category: 'Móvel' }, // Invertido
+        { majority: 'Corrida', infiltrator: 'Caminhada', category: 'Esporte' },
+        { majority: 'Caminhada', infiltrator: 'Corrida', category: 'Esporte' }, // Invertido
+        { majority: 'Laranja', infiltrator: 'Limão', category: 'Comida' },
+        { majority: 'Limão', infiltrator: 'Laranja', category: 'Comida' }, // Invertido
+        { majority: 'Tubarão', infiltrator: 'Golfinho', category: 'Animal' },
+        { majority: 'Golfinho', infiltrator: 'Tubarão', category: 'Animal' }, // Invertido
+        { majority: 'Helicóptero', infiltrator: 'Avião', category: 'Veículo' },
+        { majority: 'Avião', infiltrator: 'Helicóptero', category: 'Veículo' }, // Invertido
+        { majority: 'Teatro', infiltrator: 'Cinema', category: 'Entretenimento' },
+        { majority: 'Cinema', infiltrator: 'Teatro', category: 'Entretenimento' }, // Invertido
+        { majority: 'Rádio', infiltrator: 'Televisão', category: 'Tecnologia' },
+        { majority: 'Televisão', infiltrator: 'Rádio', category: 'Tecnologia' }, // Invertido
+        { majority: 'Bateria', infiltrator: 'Piano', category: 'Instrumento Musical' },
+        { majority: 'Piano', infiltrator: 'Bateria', category: 'Instrumento Musical' }, // Invertido
+        { majority: 'Vinho', infiltrator: 'Cerveja', category: 'Bebida' },
+        { majority: 'Cerveja', infiltrator: 'Vinho', category: 'Bebida' }, // Invertido
+        { majority: 'Primavera', infiltrator: 'Outono', category: 'Estação do Ano' },
+        { majority: 'Outono', infiltrator: 'Primavera', category: 'Estação do Ano' }, // Invertido
+        { majority: 'Japão', infiltrator: 'China', category: 'País' },
+        { majority: 'China', infiltrator: 'Japão', category: 'País' }, // Invertido
+        { majority: 'Advogado', infiltrator: 'Juiz', category: 'Profissão' },
+        { majority: 'Juiz', infiltrator: 'Advogado', category: 'Profissão' }, // Invertido
+        { majority: 'Jornal', infiltrator: 'Blog', category: 'Leitura' },
+        { majority: 'Blog', infiltrator: 'Jornal', category: 'Leitura' }, // Invertido
+        { majority: 'Hotel', infiltrator: 'Pousada', category: 'Lugar' },
+        { majority: 'Pousada', infiltrator: 'Hotel', category: 'Lugar' }, // Invertido
+        { majority: 'Montanha', infiltrator: 'Vale', category: 'Geografia' },
+        { majority: 'Vale', infiltrator: 'Montanha', category: 'Geografia' }, // Invertido
+        { majority: 'Escultura', infiltrator: 'Fotografia', category: 'Arte' },
+        { majority: 'Fotografia', infiltrator: 'Escultura', category: 'Arte' }, // Invertido
+        { majority: 'Cobre', infiltrator: 'Bronze', category: 'Metal' },
+        { majority: 'Bronze', infiltrator: 'Cobre', category: 'Metal' }, // Invertido
+        { majority: 'Faca', infiltrator: 'Tesoura', category: 'Utensílio' },
+        { majority: 'Tesoura', infiltrator: 'Faca', category: 'Utensílio' }, // Invertido
+        { majority: 'Mesa', infiltrator: 'Cadeira', category: 'Móvel' },
+        { majority: 'Cadeira', infiltrator: 'Mesa', category: 'Móvel' } // Invertido
     ];
-    const boboWords = ['Foguete', 'Dragão', 'Unicórnio', 'Pudim', 'Meia', 'Lâmpada', 'Nuvem', 'Tapete'];
+
+    
+    const boboWords = [
+        { word: 'Foguete', category: 'Espacial' },
+        { word: 'Dragão', category: 'Fantasia' },
+        { word: 'Unicórnio', category: 'Fantasia' },
+        { word: 'Pudim', category: 'Sobremesa' },
+        { word: 'Meia', category: 'Vestuário' },
+        { word: 'Lâmpada', category: 'Objeto' },
+        { word: 'Nuvem', category: 'Natureza' },
+        { word: 'Tapete', category: 'Decoração' },
+        { word: 'Guarda-chuva', category: 'Acessório' },
+        { word: 'Chave', category: 'Objeto' },
+        { word: 'Fantasma', category: 'Sobrenatural' },
+        { word: 'Pirâmide', category: 'Construção' },
+        { word: 'Vulcão', category: 'Natureza' },
+        { word: 'Robô', category: 'Ficção Científica' },
+        { word: 'Sombra', category: 'Conceito' },
+        { word: 'Eco', category: 'Conceito' },
+        { word: 'Arco-íris', category: 'Natureza' },
+        { word: 'Castelo', category: 'Construção' },
+        { word: 'Bússola', category: 'Objeto' },
+        { word: 'Telescópio', category: 'Objeto' }
+    ];
 
     const rules = {
         bobo: { title: 'O Bobo', description: 'Recebe uma palavra aleatória. Seu objetivo é ser eliminado. Se conseguir, vence sozinho!' },
@@ -184,14 +263,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function assignRolesAndWords(names) {
         currentWordPair = wordPairs[Math.floor(Math.random() * wordPairs.length)];
-        const { majority: majorityWord, infiltrator: infiltratorWord } = currentWordPair;
+        const { majority: majorityWord, infiltrator: infiltratorWord, category: pairCategory } = currentWordPair;
 
         let availablePlayers = [...names];
         players = [];
         let rolesToAssign = [];
 
         rolesToAssign.push({ role: 'Infiltrado', word: infiltratorWord });
-        if (gameSettings.bobo) rolesToAssign.push({ role: 'Bobo', word: boboWords[Math.floor(Math.random() * boboWords.length)] });
+        if (gameSettings.bobo) {
+            const filteredBoboWords = boboWords.filter(bw => bw.category !== pairCategory);
+            const randomBoboEntry = filteredBoboWords[Math.floor(Math.random() * filteredBoboWords.length)];
+            rolesToAssign.push({ role: 'Bobo', word: randomBoboEntry.word });
+        }
         if (gameSettings.cumplice) rolesToAssign.push({ role: 'Cúmplice', word: infiltratorWord });
         if (gameSettings.anjo) rolesToAssign.push({ role: 'Anjo da Guarda', word: majorityWord });
         if (gameSettings.detetive) rolesToAssign.push({ role: 'Detetive', word: majorityWord });
@@ -359,8 +442,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (actionPhase.activeRoles.includes('vidente') && player.role === 'Vidente') {
             hasAction = true;
             const title = document.createElement('h4');
-            const chances = [0.12, 0.08, 0.05];
-            const chance = (roundNumber <= chances.length) ? chances[roundNumber - 1] : 0.01;
+            const chances = [0.25, 0.15, 0.10];
+            const chance = (roundNumber <= chances.length) ? chances[roundNumber - 1] : 0.05;
 
             if (Math.random() < chance) {
                 const goodGuys = players.filter(p => p.isAlive && p.name !== player.name && isGoodGuy(p));
@@ -406,7 +489,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function triggerPreDiscussionEvent() {
-        if (!gameSettings.events || Math.random() > 0.4) {
+        if (!gameSettings.events || Math.random() > 0.6) {
             startDiscussionPhase();
             return;
         }
@@ -546,7 +629,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function triggerPostEliminationEvent() {
-        if (!gameSettings.events || Math.random() > 0.4) {
+        if (!gameSettings.events || Math.random() > 0.6) {
             startRound();
             return;
         }
@@ -774,8 +857,7 @@ document.addEventListener('DOMContentLoaded', () => {
         icon.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            const ruleKey = e.target.dataset.rule;
-            showInfoModal(rules[ruleKey].title, rules[ruleKey].description);
+            showInfoModal(rules[e.target.dataset.rule].title, rules[e.target.dataset.rule].description);
         });
     });
 
@@ -803,6 +885,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     closeInfoModal.addEventListener('click', handleInfoModalClose);
+    infoModalContinueBtn.addEventListener('click', handleInfoModalClose);
     closeEventModal.addEventListener('click', handleEventModalClose);
     closeRevealModalBtn.addEventListener('click', () => reRevealModal.style.display = 'none');
     closeConfirmModalBtn.addEventListener('click', () => confirmEliminationModal.style.display = 'none');
