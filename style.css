@@ -1,0 +1,149 @@
+/* Estilos Gerais e Variáveis */
+:root {
+    --primary-color: #6a11cb;
+    --secondary-color: #2575fc;
+    --background-color: #121212;
+    --surface-color: #1e1e1e;
+    --text-color: #e0e0e0;
+    --danger-color: #cb1111;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+h1, h2 {
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Container Principal */
+.container {
+    background-color: var(--surface-color);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+/* Gerenciamento das Telas */
+.screen {
+    display: none;
+}
+.screen.active {
+    display: block;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Elementos de Formulário */
+input[type="text"] {
+    width: calc(100% - 24px);
+    padding: 12px;
+    margin: 20px 0;
+    border-radius: 8px;
+    border: 2px solid var(--primary-color);
+    background-color: #333;
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+/* Botões */
+.btn {
+    background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.btn-secondary {
+    background: #555;
+    display: none; /* Escondido por padrão */
+}
+
+.btn-danger {
+    background: var(--danger-color);
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+/* Tela de Revelação da Palavra */
+#word-card {
+    background-color: #333;
+    border: 2px dashed var(--primary-color);
+    padding: 40px 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+    min-height: 50px;
+}
+
+#word-display {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+/* Tela Principal do Jogo */
+#players-list {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.player-item {
+    background-color: #333;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+}
+
+.game-instructions {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-top: 20px;
+}
+
+/* Tela Final */
+#winner-message {
+    font-size: 2rem;
+    color: #4CAF50; /* Verde para vitória */
+}
+
+#game-result-info {
+    font-size: 1.1rem;
+    margin-top: 10px;
+    color: #ccc;
+}

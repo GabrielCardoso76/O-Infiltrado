@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Infiltrado</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <div id="setup-screen" class="screen active">
+            <h1>O Infiltrado</h1>
+            <p>Digite os nomes dos jogadores, separados por espaço.</p>
+            <input type="text" id="player-names" placeholder="Ex: Ana Pedro Bia Carlos">
+            <button id="start-game-btn" class="btn">Jogar!</button>
+        </div>
+
+        <div id="reveal-screen" class="screen">
+            <h2 id="player-turn-title">Vez de: Jogador</h2>
+            <p>Aperte para ver sua palavra secreta.</p>
+            <div id="word-card">
+                <span id="word-display">Clique no botão abaixo</span>
+            </div>
+            <button id="show-word-btn" class="btn">Mostrar Palavra</button>
+            <button id="next-player-btn" class="btn btn-secondary">Entendi, passar a vez</button>
+        </div>
+
+        <div id="game-screen" class="screen">
+            <h2 id="start-player-info"></h2>
+            <p>Jogadores vivos:</p>
+            <div id="players-list">
+                </div>
+            <p class="game-instructions">Discutam em turnos e votem para eliminar quem vocês acham que é o infiltrado. Cliquem em "Eliminar" para remover um jogador.</p>
+        </div>
+
+        <div id="end-screen" class="screen">
+            <h2 id="winner-message"></h2>
+            <p id="game-result-info"></p>
+            <button id="play-again-btn" class="btn">Jogar Novamente</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
