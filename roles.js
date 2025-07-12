@@ -172,7 +172,16 @@ function showActionUIForPlayer(player, screens, actionUiContainer, actionPhaseMe
             runPlayerActionTurn(screens, document.getElementById('action-phase-instruction'), document.getElementById('action-ui-container'), document.getElementById('action-phase-message'), document.getElementById('action-phase-continue-btn'), document.getElementById('action-timer-display'));
         } else {
             processAllActions();
-            triggerPreDiscussionEvent(document.getElementById('discussion-timer'), document.getElementById('start-player-info'), document.getElementById('players-list'), screens, document.getElementById('event-title'), document.getElementById('event-description'), document.getElementById('event-modal'), document.getElementById('close-event-modal'));
+            triggerPreDiscussionEvent(
+                document.getElementById('discussion-timer'),
+                document.getElementById('start-player-info'),
+                document.getElementById('players-list'),
+                screens,
+                document.getElementById('event-title'),
+                document.getElementById('event-description'),
+                document.getElementById('event-modal'),
+                document.getElementById('close-event-modal')
+            );
         }
     };
 }

@@ -1,5 +1,7 @@
+let screens = {};
+
 document.addEventListener('DOMContentLoaded', () => {
-    const screens = {
+    screens = {
         mainMenu: document.getElementById('main-menu-screen'),
         howToPlay: document.getElementById('how-to-play-screen'),
         customSetup: document.getElementById('custom-setup-screen'),
@@ -225,7 +227,22 @@ document.addEventListener('DOMContentLoaded', () => {
             currentPlayerIndex++;
             setupRevealPhase(playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn);
         } else {
-            startRound(actionPhaseTitle, screens, actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay);
+            startRound(
+                actionPhaseTitle,
+                screens,
+                actionPhaseInstruction,
+                actionUiContainer,
+                actionPhaseMessage,
+                actionPhaseContinueBtn,
+                actionTimerDisplay,
+                document.getElementById('discussion-timer'),
+                startPlayerInfo,
+                playersListDiv,
+                eventTitle,
+                eventDescription,
+                eventModal,
+                closeEventModal
+            );
         }
     });
 
@@ -234,7 +251,22 @@ document.addEventListener('DOMContentLoaded', () => {
         switchScreen(screens, 'mainMenu');
     });
 
-    skipRoundBtn.addEventListener('click', () => startRound(actionPhaseTitle, screens, actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay));
+    skipRoundBtn.addEventListener('click', () => startRound(
+        actionPhaseTitle,
+        screens,
+        actionPhaseInstruction,
+        actionUiContainer,
+        actionPhaseMessage,
+        actionPhaseContinueBtn,
+        actionTimerDisplay,
+        document.getElementById('discussion-timer'),
+        startPlayerInfo,
+        playersListDiv,
+        eventTitle,
+        eventDescription,
+        eventModal,
+        closeEventModal
+    ));
 
     document.querySelectorAll('.info-icon').forEach(icon => {
         icon.addEventListener('click', (e) => {

@@ -57,9 +57,26 @@ function triggerPreDiscussionEvent(discussionTimerDisplay, startPlayerInfo, play
     };
 }
 
-function triggerPostEliminationEvent() {
+function triggerPostEliminationEvent(eventTitle, eventDescription, eventModal, closeEventModal) {
+    const startRoundCb = () => startRound(
+        document.getElementById('action-phase-title'),
+        screens,
+        document.getElementById('action-phase-instruction'),
+        document.getElementById('action-ui-container'),
+        document.getElementById('action-phase-message'),
+        document.getElementById('action-phase-continue-btn'),
+        document.getElementById('action-timer-display'),
+        document.getElementById('discussion-timer'),
+        document.getElementById('start-player-info'),
+        document.getElementById('players-list'),
+        document.getElementById('event-title'),
+        document.getElementById('event-description'),
+        document.getElementById('event-modal'),
+        document.getElementById('close-event-modal')
+    );
+
     if (!gameSettings.events || Math.random() > 0.20) {
-        startRound();
+        startRoundCb();
         return;
     }
 
@@ -69,7 +86,7 @@ function triggerPostEliminationEvent() {
     });
 
     if (eliminatedPlayers.length === 0 || possibleEvents.length === 0) {
-        startRound();
+        startRoundCb();
         return;
     }
 
@@ -105,6 +122,6 @@ function triggerPostEliminationEvent() {
     eventModal.style.display = 'block';
     closeEventModal.onclick = () => {
         eventModal.style.display = 'none';
-        startRound();
+        startRoundCb();
     };
 }

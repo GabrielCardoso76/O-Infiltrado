@@ -139,7 +139,9 @@ function populateEventToggles(specificEventsList) {
 
 function startDiscussionTimer(duration, discussionTimerDisplay) {
     let timer = duration * 60;
+    const backdrop = document.getElementById('timer-backdrop');
     discussionTimerDisplay.style.display = 'block';
+    backdrop.style.display = 'block';
 
     timerInterval = setInterval(() => {
         const minutes = Math.floor(timer / 60);
@@ -149,6 +151,7 @@ function startDiscussionTimer(duration, discussionTimerDisplay) {
         if (--timer < 0) {
             clearInterval(timerInterval);
             discussionTimerDisplay.style.display = 'none';
+            backdrop.style.display = 'none';
         }
     }, 1000);
 }

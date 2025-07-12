@@ -67,7 +67,7 @@ function randomizeRoles(playerCount) {
     });
 }
 
-function startRound(actionPhaseTitle, screens, actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay) {
+function startRound(actionPhaseTitle, screens, actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay, discussionTimerDisplay, startPlayerInfo, playersListDiv, eventTitle, eventDescription, eventModal, closeEventModal) {
     roundNumber++;
     activeEvent = null;
     const actionRoles = [];
@@ -81,7 +81,7 @@ function startRound(actionPhaseTitle, screens, actionPhaseInstruction, actionUiC
     if (actionRoles.length > 0) {
         startActionPhase(actionRoles, actionPhaseTitle, screens, actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay);
     } else {
-        triggerPreDiscussionEvent();
+        triggerPreDiscussionEvent(discussionTimerDisplay, startPlayerInfo, playersListDiv, screens, eventTitle, eventDescription, eventModal, closeEventModal);
     }
 }
 
@@ -93,10 +93,10 @@ function startActionPhase(actionTypes, actionPhaseTitle, screens, actionPhaseIns
 
     actionPhaseTitle.textContent = 'Fase de Ação Secreta';
     switchScreen(screens, 'actionPhase');
-    runPlayerActionTurn(screens, actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay);
+    runPlayerActionTurn(actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay);
 }
 
-function runPlayerActionTurn(screens, actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay) {
+function runPlayerActionTurn(actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay) {
     const player = players[actionPhase.currentPlayerIndex];
     actionPhaseInstruction.textContent = `Passe o celular para ${player.name}`;
     actionUiContainer.innerHTML = '';
@@ -130,7 +130,7 @@ function runPlayerActionTurn(screens, actionPhaseInstruction, actionUiContainer,
             }
         }, 1000);
 
-        showActionUIForPlayer(player, screens, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn);
+        showActionUIForPlayer(player, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn);
     };
 }
 
@@ -159,8 +159,25 @@ function startDiscussionPhase(discussionTimerDisplay, startPlayerInfo, playersLi
 }
 
 function eliminatePlayer(playerName, infoModalTitle, infoModalDescription, infoModal, infoModalContinueBtn) {
+    const startRoundCb = () => startRound(
+        document.getElementById('action-phase-title'),
+        screens,
+        document.getElementById('action-phase-instruction'),
+        document.getElementById('action-ui-container'),
+        document.getElementById('action-phase-message'),
+        document.getElementById('action-phase-continue-btn'),
+        document.getElementById('action-timer-display'),
+        document.getElementById('discussion-timer'),
+        document.getElementById('start-player-info'),
+        document.getElementById('players-list'),
+        document.getElementById('event-title'),
+        document.getElementById('event-description'),
+        document.getElementById('event-modal'),
+        document.getElementById('close-event-modal')
+    );
+
     if (playerName === actionPhase.lastProtected) {
-        showInfoModal('Anjo em Ação!', `${playerName} foi o mais votado, mas foi salvo pelo Anjo da Guarda! Ninguém foi eliminado.`, startRound, infoModalTitle, infoModalDescription, infoModal, infoModalContinueBtn);
+        showInfoModal('Anjo em Ação!', `${playerName} foi o mais votado, mas foi salvo pelo Anjo da Guarda! Ninguém foi eliminado.`, startRoundCb, infoModalTitle, infoModalDescription, infoModal, infoModalContinueBtn);
         return;
     }
 

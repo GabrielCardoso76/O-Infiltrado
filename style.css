@@ -166,6 +166,34 @@ input:checked + .slider:before { transform: translateX(22px); }
 #action-ui-container .player-list-action .player-name:hover { background-color: #555; }
 #action-ui-container .player-list-action .player-name.disabled { background-color: #222; color: #666; cursor: not-allowed; }
 
+#discussion-timer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: var(--text-color);
+    padding: 40px 60px;
+    border-radius: 20px;
+    font-size: 5em;
+    font-weight: bold;
+    z-index: 2000;
+    display: none;
+    border: 5px solid var(--primary-color);
+    box-shadow: 0 0 25px rgba(255, 223, 0, 0.7);
+}
+
+.timer-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1999;
+    display: none;
+}
+
 #specific-events-list .option-item {
     font-size: 0.9rem;
     padding: 10px;
