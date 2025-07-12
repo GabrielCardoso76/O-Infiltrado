@@ -12,19 +12,61 @@
 <body>
 
     <div class="container">
-        <!-- TELA 1: CONFIGURAÇÃO INICIAL -->
-        <div id="setup-screen" class="screen active">
+        <div id="main-menu-screen" class="screen active">
             <h1>O Infiltrado</h1>
             <p>Digite os nomes dos jogadores, separados por espaço.</p>
             <input type="text" id="player-names" placeholder="Ex: Ana Pedro Bia Carlos">
-            <button id="start-game-btn" class="btn">Jogar!</button>
+            <div class="menu-buttons">
+                <button id="classic-game-btn" class="btn">Jogo Clássico</button>
+                <button id="custom-setup-btn" class="btn btn-secondary">Partida Personalizada</button>
+                <button id="how-to-play-btn" class="btn btn-secondary">Como Jogar?</button>
+            </div>
         </div>
 
-        <!-- TELA 2: REVELAR PALAVRAS -->
+        <div id="how-to-play-screen" class="screen">
+            <h2>Como Jogar</h2>
+            <h3>Papéis Especiais</h3>
+            <div id="roles-list-detailed"></div>
+            <h3>Eventos Aleatórios</h3>
+            <div id="events-list-detailed"></div>
+            <button id="back-to-menu-from-how-to-play-btn" class="btn">Voltar</button>
+        </div>
+
+        <div id="custom-setup-screen" class="screen">
+            <h2>Partida Personalizada</h2>
+            <p>Escolha os papéis e regras para esta partida.</p>
+            <div class="custom-options">
+                <div class="option-item">
+                    <label for="bobo-toggle">O Bobo <span class="info-icon" data-rule="bobo">?</span></label>
+                    <label class="switch">
+                        <input type="checkbox" id="bobo-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="option-item">
+                    <label for="cumplice-toggle">O Cúmplice <span class="info-icon" data-rule="cumplice">?</span></label>
+                    <label class="switch">
+                        <input type="checkbox" id="cumplice-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="option-item">
+                    <label for="events-toggle">Eventos Aleatórios <span class="info-icon" data-rule="eventos">?</span></label>
+                    <label class="switch">
+                        <input type="checkbox" id="events-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <button id="start-custom-game-btn" class="btn">Começar Jogo</button>
+            <button id="back-to-menu-btn" class="btn btn-secondary">Voltar</button>
+        </div>
+
         <div id="reveal-screen" class="screen">
             <h2 id="player-turn-title">Vez de: Jogador</h2>
-            <p>Clique no card para ver sua palavra.</p>
+            <p>Clique no card para ver seu papel e sua palavra.</p>
             <div id="word-card">
+                <span id="role-display"></span>
                 <span id="word-display">Clique para revelar</span>
             </div>
             <div id="reveal-nav">
@@ -33,7 +75,6 @@
             </div>
         </div>
 
-        <!-- TELA 3: JOGO PRINCIPAL -->
         <div id="game-screen" class="screen">
             <h2 id="start-player-info"></h2>
             <p>Jogadores vivos:</p>
@@ -41,7 +82,6 @@
             <p class="game-instructions">Clique no seu nome para rever sua palavra secreta. Discutam e votem para eliminar quem vocês acham que é o infiltrado.</p>
         </div>
 
-        <!-- TELA 4: FIM DE JOGO -->
         <div id="end-screen" class="screen">
             <h2 id="winner-message"></h2>
             <p id="game-result-info"></p>
@@ -49,21 +89,37 @@
         </div>
     </div>
 
-    <!-- MODAL PARA REVER A PALAVRA -->
+    <div id="rules-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-rules-modal">&times;</span>
+            <h3 id="rule-title">Título da Regra</h3>
+            <p id="rule-description">Descrição da regra aqui.</p>
+        </div>
+    </div>
+
+    <div id="event-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-event-modal">&times;</span>
+            <h2>Evento Aleatório!</h2>
+            <h3 id="event-title"></h3>
+            <p id="event-description"></p>
+        </div>
+    </div>
+
     <div id="re-reveal-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" id="close-reveal-modal">&times;</span>
+            <p>Seu papel: <strong id="modal-role"></strong></p>
             <p>Sua palavra secreta é:</p>
             <h3 id="modal-word">PALAVRA</h3>
         </div>
     </div>
 
-    <!-- MODAL PARA CONFIRMAR ELIMINAÇÃO -->
     <div id="confirm-elimination-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" id="close-confirm-modal">&times;</span>
             <p>Tem certeza que deseja eliminar</p>
-            <h3 id="player-to-eliminate-name" style="color: var(--danger-color);">NOME DO JOGADOR</h3>
+            <h3 id="player-to-eliminate-name" class="text-danger">NOME DO JOGADOR</h3>
             <div id="confirm-buttons">
                 <button id="confirm-eliminate-btn" class="btn btn-danger">Sim, Eliminar</button>
                 <button id="cancel-eliminate-btn" class="btn btn-secondary">Cancelar</button>

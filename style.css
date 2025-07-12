@@ -1,4 +1,3 @@
-/* --- ESTILOS GERAIS E VARIÁVEIS --- */
 :root {
     --primary-color: #6a11cb;
     --secondary-color: #2575fc;
@@ -6,6 +5,9 @@
     --surface-color: #1e1e1e;
     --text-color: #e0e0e0;
     --danger-color: #cb1111;
+    --bobo-color: #ff9800;
+    --cumplice-color: #f44336;
+    --majority-color: #2196F3;
 }
 
 body {
@@ -21,12 +23,11 @@ body {
     box-sizing: border-box;
 }
 
-h1, h2 {
+h1, h2, h3 {
     color: #fff;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
-/* --- CONTAINER PRINCIPAL --- */
 .container {
     background-color: var(--surface-color);
     padding: 25px;
@@ -38,7 +39,6 @@ h1, h2 {
     overflow: hidden;
 }
 
-/* --- GERENCIAMENTO DAS TELAS --- */
 .screen {
     display: none;
 }
@@ -52,7 +52,6 @@ h1, h2 {
     to { opacity: 1; transform: scale(1); }
 }
 
-/* --- ELEMENTOS DE FORMULÁRIO --- */
 input[type="text"] {
     width: calc(100% - 24px);
     padding: 12px;
@@ -64,7 +63,6 @@ input[type="text"] {
     font-size: 1rem;
 }
 
-/* --- BOTÕES --- */
 .btn {
     background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
     color: white;
@@ -96,22 +94,39 @@ input[type="text"] {
 
 .btn-danger {
     background: var(--danger-color);
-    padding: 5px 10px;
-    font-size: 0.8rem;
-    border-radius: 5px;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    border-radius: 20px;
     margin-left: 10px;
 }
 
-/* --- TELA DE REVELAÇÃO --- */
+.menu-buttons {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 #word-card {
     background-color: #333;
     border: 2px dashed var(--primary-color);
-    padding: 40px 20px;
+    padding: 30px 20px;
     margin: 20px 0;
     border-radius: 10px;
-    min-height: 50px;
+    min-height: 80px;
     cursor: pointer;
     transition: filter 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#role-display {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-transform: uppercase;
 }
 
 #word-display {
@@ -127,7 +142,6 @@ input[type="text"] {
     margin-top: 15px;
 }
 
-/* --- TELA PRINCIPAL DO JOGO --- */
 #players-list {
     margin-top: 20px;
     text-align: left;
@@ -142,12 +156,13 @@ input[type="text"] {
     justify-content: space-between;
     align-items: center;
     font-size: 1.1rem;
+    border-left: 5px solid transparent;
+    transition: border-color 0.5s ease;
 }
 
 .player-name {
     cursor: pointer;
     flex-grow: 1;
-    transition: all 0.2s ease;
 }
 .player-name:hover {
     opacity: 0.8;
@@ -159,7 +174,6 @@ input[type="text"] {
     margin-top: 20px;
 }
 
-/* --- TELA FINAL --- */
 #winner-message {
     font-size: 2rem;
 }
@@ -168,9 +182,9 @@ input[type="text"] {
     font-size: 1.1rem;
     margin-top: 10px;
     color: #ccc;
+    white-space: pre-wrap;
 }
 
-/* --- MODAIS --- */
 .modal {
     display: none;
     position: fixed;
@@ -186,12 +200,12 @@ input[type="text"] {
 
 .modal-content {
     background-color: var(--surface-color);
-    margin: 30% auto;
+    margin: 25% auto;
     padding: 25px;
     border: 1px solid var(--primary-color);
     border-radius: 10px;
-    width: 80%;
-    max-width: 400px;
+    width: 85%;
+    max-width: 450px;
     text-align: center;
     position: relative;
 }
@@ -210,7 +224,6 @@ input[type="text"] {
 }
 
 #modal-word {
-    color: var(--secondary-color);
     font-size: 1.8rem;
     letter-spacing: 2px;
     cursor: pointer;
@@ -236,11 +249,133 @@ input[type="text"] {
 }
 
 #confirm-buttons .btn-danger {
-    background: var(--danger-color);
     margin-left: 0;
 }
 
-/* --- AJUSTES PARA CELULARES --- */
+.text-danger {
+    color: var(--danger-color);
+}
+
+.custom-options {
+    margin: 20px 0;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.option-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.info-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--secondary-color);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 8px;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.info-icon:hover {
+    background-color: var(--primary-color);
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #555;
+    transition: .4s;
+    border-radius: 28px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(22px);
+}
+
+#how-to-play-screen {
+    text-align: left;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+#how-to-play-screen h3 {
+    color: var(--primary-color);
+    margin-top: 25px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 5px;
+}
+
+.rule-item-detailed {
+    background-color: #333;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.rule-item-detailed strong {
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+}
+
+.rule-item-detailed p {
+    margin-top: 5px;
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+.pair-color-1 { border-left-color: #ff5722; }
+.pair-color-2 { border-left-color: #ffeb3b; }
+.pair-color-3 { border-left-color: #4caf50; }
+.pair-color-4 { border-left-color: #03a9f4; }
+.pair-color-5 { border-left-color: #e91e63; }
+
 @media (max-width: 500px) {
     body {
         padding: 10px;
@@ -254,5 +389,5 @@ input[type="text"] {
     h2 { font-size: 1.5rem; }
     .btn { padding: 10px 20px; font-size: 0.9rem; }
     #word-display { font-size: 1.3rem; }
-    .modal-content { margin: 40% auto; }
+    .modal-content { margin: 30% auto; }
 }
