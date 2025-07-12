@@ -2,6 +2,7 @@ O Infiltrado
 Um jogo web de dedução social sobre palavras, blefes e identidades secretas. Reúna seus amigos e descubra quem é o Infiltrado entre vocês!
 
 ➡️ Jogue agora mesmo clicando aqui!
+https://gabrielcardoso76.github.io/O-Infiltrado/
 
 📜 Sobre o Jogo
 Em O Infiltrado, os jogadores são divididos em dois grupos principais: a Maioria e o Infiltrado. A Maioria recebe uma palavra secreta, enquanto o Infiltrado recebe uma palavra similar, mas diferente.
