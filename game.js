@@ -18,7 +18,7 @@ let actionPhase = {
 let currentWordPair = {};
 let timerInterval;
 
-function initializeGame() {
+function initializeGame(playerNamesInput, screens, playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn, startPlayerInfo) {
     const names = playerNamesInput.value.trim().split(' ').filter(name => name);
     let requiredPlayers = 3;
 
@@ -39,8 +39,8 @@ function initializeGame() {
     actionPhase.lastProtected = null;
     actionPhase.pendingInvestigation = null;
     startPlayerInfo.textContent = '';
-    setupRevealPhase();
-    switchScreen('reveal');
+    setupRevealPhase(playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn);
+    switchScreen(screens, 'reveal');
 }
 
 function randomizeRoles(playerCount) {
@@ -146,21 +146,21 @@ function processAllActions() {
     }
 }
 
-function startDiscussionPhase() {
+function startDiscussionPhase(discussionTimerDisplay, startPlayerInfo, playersListDiv, screens) {
     if (gameSettings.discussionTime > 0) {
-        startDiscussionTimer(gameSettings.discussionTime);
+        startDiscussionTimer(gameSettings.discussionTime, discussionTimerDisplay);
     }
     if (!startPlayerInfo.textContent) {
         const startingPlayerIndex = Math.floor(Math.random() * players.length);
         startPlayerInfo.textContent = `${players[startingPlayerIndex].name} começa!`;
     }
-    renderPlayerList();
-    switchScreen('game');
+    renderPlayerList(playersListDiv);
+    switchScreen(screens, 'game');
 }
 
-function eliminatePlayer(playerName) {
+function eliminatePlayer(playerName, infoModalTitle, infoModalDescription, infoModal, infoModalContinueBtn) {
     if (playerName === actionPhase.lastProtected) {
-        showInfoModal('Anjo em Ação!', `${playerName} foi o mais votado, mas foi salvo pelo Anjo da Guarda! Ninguém foi eliminado.`, startRound);
+        showInfoModal('Anjo em Ação!', `${playerName} foi o mais votado, mas foi salvo pelo Anjo da Guarda! Ninguém foi eliminado.`, startRound, infoModalTitle, infoModalDescription, infoModal, infoModalContinueBtn);
         return;
     }
 
@@ -170,7 +170,7 @@ function eliminatePlayer(playerName) {
         eliminatedPlayers.push(players[playerIndex]);
     }
 
-    showInfoModal("Eliminação", `${playerName} foi eliminado(a)!`, () => checkEndGame(players[playerIndex]));
+    showInfoModal("Eliminação", `${playerName} foi eliminado(a)!`, () => checkEndGame(players[playerIndex]), infoModalTitle, infoModalDescription, infoModal, infoModalContinueBtn);
 }
 
 function checkEndGame(eliminatedPlayer) {
@@ -198,8 +198,8 @@ function checkEndGame(eliminatedPlayer) {
     triggerPostEliminationEvent();
 }
 
-function endGame(winnerType, winningPlayer = null) {
-    switchScreen('end');
+function endGame(winnerType, winningPlayer = null, screens, gameResultInfo, winnerMessage) {
+    switchScreen(screens, 'end');
     let resultText = '';
     const infiltrator = players.find(p => p.role === 'Infiltrado');
 

@@ -72,8 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const cancelEliminateBtn = document.getElementById('cancel-eliminate-btn');
     const closeConfirmModalBtn = document.getElementById('close-confirm-modal');
 
-    populateHowToPlayScreen();
-    populateEventToggles();
+    populateHowToPlayScreen(rolesListDetailed, eventsListDetailed);
+    populateEventToggles(specificEventsList);
 
     classicGameBtn.addEventListener('click', () => {
         gameSettings = {
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
             revelationMode: 'default',
             finalRevelation: 'all'
         };
-        initializeGame();
+        initializeGame(playerNamesInput, screens, playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn, startPlayerInfo);
     });
 
     customSetupBtn.addEventListener('click', () => {
@@ -103,12 +103,12 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Por favor, digite os nomes de pelo menos 3 jogadores antes de personalizar a partida.');
             return;
         }
-        switchScreen('customSetup');
+        switchScreen(screens, 'customSetup');
     });
 
-    backToMenuBtn.addEventListener('click', () => switchScreen('mainMenu'));
-    howToPlayBtn.addEventListener('click', () => switchScreen('howToPlay'));
-    backToMenuFromHowToPlayBtn.addEventListener('click', () => switchScreen('mainMenu'));
+    backToMenuBtn.addEventListener('click', () => switchScreen(screens, 'mainMenu'));
+    howToPlayBtn.addEventListener('click', () => switchScreen(screens, 'howToPlay'));
+    backToMenuFromHowToPlayBtn.addEventListener('click', () => switchScreen(screens, 'mainMenu'));
 
     randomModeToggle.addEventListener('change', () => {
         manualRolesContainer.classList.toggle('hidden', randomModeToggle.checked);
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
             revelationMode: document.querySelector('input[name="revelationMode"]:checked').value,
             finalRevelation: document.querySelector('input[name="finalRevelation"]:checked').value,
         };
-        initializeGame();
+        initializeGame(playerNamesInput, screens, playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn, startPlayerInfo);
     });
 
     wordCard.addEventListener('click', () => {
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     prevPlayerBtn.addEventListener('click', () => {
         if (currentPlayerIndex > 0) {
             currentPlayerIndex--;
-            setupRevealPhase();
+            setupRevealPhase(playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn);
         }
     });
 
@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (currentPlayerIndex < players.length - 1) {
             currentPlayerIndex++;
-            setupRevealPhase();
+            setupRevealPhase(playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn);
         } else {
             startRound();
         }
@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     playAgainBtn.addEventListener('click', () => {
         playerNamesInput.value = '';
-        switchScreen('mainMenu');
+        switchScreen(screens, 'mainMenu');
     });
 
     skipRoundBtn.addEventListener('click', startRound);
@@ -220,13 +220,13 @@ document.addEventListener('DOMContentLoaded', () => {
         icon.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            showInfoModal(rules[e.target.dataset.rule].title, rules[e.target.dataset.rule].description);
+            showInfoModal(rules[e.target.dataset.rule].title, rules[e.target.dataset.rule].description, null, infoModalTitle, infoModalDescription, infoModal, infoModalContinueBtn);
         });
     });
 
     confirmEliminateBtn.addEventListener('click', () => {
         if (playerToEliminate) {
-            eliminatePlayer(playerToEliminate);
+            eliminatePlayer(playerToEliminate, infoModalTitle, infoModalDescription, infoModal, infoModalContinueBtn);
         }
         confirmEliminationModal.style.display = 'none';
     });

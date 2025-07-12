@@ -1,9 +1,9 @@
-function switchScreen(screenName) {
+function switchScreen(screens, screenName) {
     Object.values(screens).forEach(screen => screen.classList.remove('active'));
     screens[screenName].classList.add('active');
 }
 
-function setupRevealPhase() {
+function setupRevealPhase(playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn) {
     const currentPlayer = players[currentPlayerIndex];
     playerTurnTitle.textContent = `Vez de: ${currentPlayer.name}`;
     roleDisplay.textContent = '';
@@ -14,7 +14,7 @@ function setupRevealPhase() {
     nextPlayerBtn.textContent = (currentPlayerIndex === players.length - 1) ? 'Jogar!' : '→';
 }
 
-function renderPlayerList() {
+function renderPlayerList(playersListDiv) {
     playersListDiv.innerHTML = '';
     const alivePlayers = players.filter(p => p.isAlive);
 
@@ -23,15 +23,15 @@ function renderPlayerList() {
         pairs.forEach((pair, pairIndex) => {
             pair.forEach(playerName => {
                 const player = alivePlayers.find(p => p.name === playerName);
-                if (player) createPlayerItem(player, `pair-color-${(pairIndex % 5) + 1}`);
+                if (player) createPlayerItem(player, `pair-color-${(pairIndex % 5) + 1}`, playersListDiv);
             });
         });
     } else {
-        alivePlayers.forEach(player => createPlayerItem(player));
+        alivePlayers.forEach(player => createPlayerItem(player, '', playersListDiv));
     }
 }
 
-function createPlayerItem(player, pairClass = '') {
+function createPlayerItem(player, pairClass = '', playersListDiv) {
     const playerItem = document.createElement('div');
     playerItem.className = 'player-item';
     if (pairClass) playerItem.classList.add(pairClass);
@@ -39,14 +39,14 @@ function createPlayerItem(player, pairClass = '') {
     const playerNameSpan = document.createElement('span');
     playerNameSpan.className = 'player-name';
     playerNameSpan.textContent = player.name;
-    playerNameSpan.onclick = () => showReRevealModal(player.role, player.word);
+    playerNameSpan.onclick = () => showReRevealModal(player.role, player.word, document.getElementById('modal-role'), document.getElementById('modal-word'), document.getElementById('re-reveal-modal'));
 
     const eliminateBtn = document.createElement('button');
     eliminateBtn.className = 'btn btn-danger';
     eliminateBtn.textContent = 'Eliminar';
     eliminateBtn.onclick = (e) => {
         e.stopPropagation();
-        promptElimination(player.name);
+        promptElimination(player.name, document.getElementById('player-to-eliminate-name'), document.getElementById('confirm-elimination-modal'));
     };
 
     playerItem.appendChild(playerNameSpan);
@@ -54,13 +54,13 @@ function createPlayerItem(player, pairClass = '') {
     playersListDiv.appendChild(playerItem);
 }
 
-function promptElimination(playerName) {
+function promptElimination(playerName, playerToEliminateName, confirmEliminationModal) {
     playerToEliminate = playerName;
     playerToEliminateName.textContent = playerName;
     confirmEliminationModal.style.display = 'block';
 }
 
-function showInfoModal(title, description, callback) {
+function showInfoModal(title, description, callback, infoModalTitle, infoModalDescription, infoModal, infoModalContinueBtn) {
     infoModalTitle.textContent = title;
     infoModalDescription.textContent = description;
     infoModal.style.display = 'block';
@@ -70,7 +70,7 @@ function showInfoModal(title, description, callback) {
     };
 }
 
-function showReRevealModal(role, word) {
+function showReRevealModal(role, word, modalRole, modalWord, reRevealModal) {
     if (gameSettings.revelationMode === 'hidden') {
         modalRole.textContent = '';
     } else {
@@ -81,7 +81,7 @@ function showReRevealModal(role, word) {
     reRevealModal.style.display = 'block';
 }
 
-function populateHowToPlayScreen() {
+function populateHowToPlayScreen(rolesListDetailed, eventsListDetailed) {
     rolesListDetailed.innerHTML = '';
     eventsListDetailed.innerHTML = '';
     const rolesToDisplay = {bobo: rules.bobo, cumplice: rules.cumplice, anjo: rules.anjo, detetive: rules.detetive, vidente: rules.vidente, coveiro: rules.coveiro, agenteDuplo: rules.agenteDuplo, mimico: rules.mimico};
@@ -124,7 +124,7 @@ function populateHowToPlayScreen() {
     rolesListDetailed.appendChild(hiddenModeDesc);
 }
 
-function populateEventToggles() {
+function populateEventToggles(specificEventsList) {
     specificEventsList.innerHTML = '';
     randomEvents.forEach(event => {
         const item = document.createElement('div');
@@ -137,9 +137,8 @@ function populateEventToggles() {
     });
 }
 
-function startDiscussionTimer(duration) {
+function startDiscussionTimer(duration, discussionTimerDisplay) {
     let timer = duration * 60;
-    const discussionTimerDisplay = document.getElementById('discussion-timer');
     discussionTimerDisplay.style.display = 'block';
 
     timerInterval = setInterval(() => {
