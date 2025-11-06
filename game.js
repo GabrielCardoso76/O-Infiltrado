@@ -158,7 +158,7 @@ function startDiscussionPhase(discussionTimerDisplay, startPlayerInfo, playersLi
     switchScreen(screens, 'game');
 }
 
-function eliminatePlayer(playerName, infoModalTitle, infoModalDescription, infoModal, infoModalContinueBtn) {
+function eliminatePlayer(playerName, infoModalTitle, infoModalDescription, infoModal, infoModalContinueBtn, screens, gameResultInfo, winnerMessage) {
     const startRoundCb = () => startRound(
         document.getElementById('action-phase-title'),
         screens,
@@ -187,28 +187,28 @@ function eliminatePlayer(playerName, infoModalTitle, infoModalDescription, infoM
         eliminatedPlayers.push(players[playerIndex]);
     }
 
-    showInfoModal("Eliminação", `${playerName} foi eliminado(a)!`, () => checkEndGame(players[playerIndex]), infoModalTitle, infoModalDescription, infoModal, infoModalContinueBtn);
+    showInfoModal("Eliminação", `${playerName} foi eliminado(a)!`, () => checkEndGame(players[playerIndex], screens, gameResultInfo, winnerMessage), infoModalTitle, infoModalDescription, infoModal, infoModalContinueBtn);
 }
 
-function checkEndGame(eliminatedPlayer) {
+function checkEndGame(eliminatedPlayer, screens, gameResultInfo, winnerMessage) {
     const alivePlayers = players.filter(p => p.isAlive);
     const aliveInfiltrators = alivePlayers.filter(p => p.role === 'Infiltrado' || p.role === 'Cúmplice');
     const aliveGoodGuys = alivePlayers.filter(p => p.role !== 'Infiltrado' && p.role !== 'Cúmplice' && p.role !== 'Bobo');
 
     if (eliminatedPlayer.role === 'Bobo') {
-        endGame('bobo', eliminatedPlayer);
+        endGame('bobo', eliminatedPlayer, screens, gameResultInfo, winnerMessage);
         return;
     }
     if (aliveInfiltrators.length === 0) {
-        endGame('majority');
+        endGame('majority', null, screens, gameResultInfo, winnerMessage);
         return;
     }
     if (aliveGoodGuys.length === 0) {
-        endGame('infiltrators');
+        endGame('infiltrators', null, screens, gameResultInfo, winnerMessage);
         return;
     }
     if (alivePlayers.length <= 2) {
-        endGame('infiltrators');
+        endGame('infiltrators', null, screens, gameResultInfo, winnerMessage);
         return;
     }
 

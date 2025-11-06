@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     confirmEliminateBtn.addEventListener('click', () => {
         if (playerToEliminate) {
-            eliminatePlayer(playerToEliminate, infoModalTitle, infoModalDescription, infoModal, infoModalContinueBtn);
+            eliminatePlayer(playerToEliminate, infoModalTitle, infoModalDescription, infoModal, infoModalContinueBtn, screens, gameResultInfo, winnerMessage);
         }
         confirmEliminationModal.style.display = 'none';
     });
