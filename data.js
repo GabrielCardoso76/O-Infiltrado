@@ -138,3 +138,66 @@ const rules = {
     eventos: { title: 'Eventos Aleatórios', description: 'Se ativado, um evento surpresa pode acontecer após uma eliminação, mudando as regras da próxima rodada.' },
     'random-mode': { title: 'Modo Aleatório', description: 'Ativa uma seleção aleatória de papéis especiais a cada partida, dependendo do número de jogadores. Surpresa total!'}
 };
+
+const questionThemes = {
+    'Comida': {
+        words: ['Pizza', 'Hambúrguer', 'Sushi', 'Churrasco', 'Lasanha', 'Salada', 'Sopa', 'Sorvete', 'Bolo', 'Pastel'],
+        questions: [
+            'Você consegue comer isso em qual quantidade?',
+            'Você costuma comer isso quente ou frio?',
+            'Você comeria isso no café da manhã?',
+            'Isso é considerado saudável?',
+            'Você precisa de talheres para comer isso?',
+            'Qual a melhor bebida para acompanhar isso?',
+            'Isso é caro ou barato?',
+            'Você sabe preparar isso?',
+            'Isso é típico de qual país?',
+            'Você prefere isso doce ou salgado?'
+        ]
+    },
+    'Lugar': {
+        words: ['Praia', 'Escola', 'Hospital', 'Cinema', 'Shopping', 'Parque', 'Aeroporto', 'Academia', 'Biblioteca', 'Restaurante'],
+        questions: [
+            'Você vai a esse lugar com que frequência?',
+            'Você precisa pagar para entrar nesse lugar?',
+            'Que tipo de roupa você usa nesse lugar?',
+            'Você vai a esse lugar sozinho ou acompanhado?',
+            'Esse lugar é barulhento ou silencioso?',
+            'Você passa muito tempo quando vai a esse lugar?',
+            'Esse lugar é melhor de dia ou de noite?',
+            'Você gosta de ir a esse lugar?',
+            'O que você costuma fazer nesse lugar?',
+            'Esse lugar fica perto da sua casa?'
+        ]
+    },
+    'Objeto': {
+        words: ['Celular', 'Cadeira', 'Relógio', 'Garrafa', 'Livro', 'Chave', 'Caneta', 'Óculos', 'Mochila', 'Computador'],
+        questions: [
+            'Você usa isso todos os dias?',
+            'Isso cabe no seu bolso?',
+            'Isso quebra fácil?',
+            'Você emprestaria isso para alguém?',
+            'Isso é feito de que material?',
+            'Isso é pesado ou leve?',
+            'Você tem mais de um desse?',
+            'Isso precisa de energia/bateria para funcionar?',
+            'Qual a cor mais comum disso?',
+            'Você compraria um novo se perdesse?'
+        ]
+    },
+    'Animal': {
+        words: ['Cachorro', 'Gato', 'Leão', 'Elefante', 'Pássaro', 'Peixe', 'Cavalo', 'Macaco', 'Tartaruga', 'Cobra'],
+        questions: [
+            'Você teria isso como animal de estimação?',
+            'Esse animal é perigoso?',
+            'Esse animal vive na terra ou na água?',
+            'Esse animal faz muito barulho?',
+            'Qual o tamanho desse animal?',
+            'Você tem medo desse animal?',
+            'O que esse animal come?',
+            'Esse animal é comum no Brasil?',
+            'Esse animal é rápido ou lento?',
+            'Você já viu esse animal pessoalmente?'
+        ]
+    }
+};

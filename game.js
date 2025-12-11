@@ -17,6 +17,11 @@ let actionPhase = {
 };
 let currentWordPair = {};
 let timerInterval;
+let questionModeData = {
+    currentPlayerIndex: 0,
+    questions: []
+};
+
 
 function initializeGame(playerNamesInput, screens, playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn, startPlayerInfo) {
     const names = playerNamesInput.value.trim().split(' ').filter(name => name);
@@ -32,7 +37,12 @@ function initializeGame(playerNamesInput, screens, playerTurnTitle, roleDisplay,
         return;
     }
 
-    assignRolesAndWords(names);
+    if (gameSettings.isQuestionsMode) {
+        assignRolesAndWordsForQuestions(names);
+    } else {
+        assignRolesAndWords(names);
+    }
+
     currentPlayerIndex = 0;
     eliminatedPlayers = [];
     roundNumber = 0;
@@ -70,6 +80,13 @@ function randomizeRoles(playerCount) {
 function startRound(actionPhaseTitle, screens, actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay, discussionTimerDisplay, startPlayerInfo, playersListDiv, eventTitle, eventDescription, eventModal, closeEventModal) {
     roundNumber++;
     activeEvent = null;
+
+    if (gameSettings.isQuestionsMode) {
+        // In Questions Mode, we go to Question Phase first
+        startQuestionPhase(screens, document.getElementById('question-player-turn-title'), document.getElementById('question-text'), document.getElementById('reveal-question-btn'), document.getElementById('next-question-btn'));
+        return;
+    }
+
     const actionRoles = [];
     if (gameSettings.anjo) actionRoles.push('anjo');
     if (gameSettings.detetive) actionRoles.push('detetive');
@@ -82,6 +99,51 @@ function startRound(actionPhaseTitle, screens, actionPhaseInstruction, actionUiC
         startActionPhase(actionRoles, actionPhaseTitle, screens, actionPhaseInstruction, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn, actionTimerDisplay);
     } else {
         triggerPreDiscussionEvent(discussionTimerDisplay, startPlayerInfo, playersListDiv, screens, eventTitle, eventDescription, eventModal, closeEventModal);
+    }
+}
+
+function startQuestionPhase(screens, titleElement, textElement, revealBtn, nextBtn) {
+    // Generate questions for this round
+    const themeKey = gameSettings.theme === 'random' ? Object.keys(questionThemes)[Math.floor(Math.random() * Object.keys(questionThemes).length)] : gameSettings.theme;
+    const themeData = questionThemes[themeKey];
+    // Simple shuffle questions
+    const shuffledQuestions = [...themeData.questions].sort(() => 0.5 - Math.random());
+
+    questionModeData.currentPlayerIndex = 0;
+    // Assign a unique question to each alive player
+    const alivePlayers = players.filter(p => p.isAlive);
+    alivePlayers.forEach((player, index) => {
+        player.currentQuestion = shuffledQuestions[index % shuffledQuestions.length];
+    });
+
+    // Setup UI for first player
+    setupQuestionUI(alivePlayers[0], titleElement, textElement, revealBtn, nextBtn);
+    switchScreen(screens, 'questionPhase');
+}
+
+function setupQuestionUI(player, titleElement, textElement, revealBtn, nextBtn) {
+    titleElement.textContent = `Pergunta para: ${player.name}`;
+    textElement.textContent = player.currentQuestion;
+    textElement.style.display = 'none';
+    revealBtn.classList.remove('hidden');
+    nextBtn.classList.add('hidden');
+    // nextBtn text check
+    const alivePlayers = players.filter(p => p.isAlive);
+    if (questionModeData.currentPlayerIndex === alivePlayers.length - 1) {
+        nextBtn.textContent = 'Ir para Discussão';
+    } else {
+        nextBtn.textContent = 'Próximo';
+    }
+}
+
+function handleNextQuestion(screens, titleElement, textElement, revealBtn, nextBtn, discussionTimerDisplay, startPlayerInfo, playersListDiv, eventTitle, eventDescription, eventModal, closeEventModal) {
+    const alivePlayers = players.filter(p => p.isAlive);
+    questionModeData.currentPlayerIndex++;
+
+    if (questionModeData.currentPlayerIndex < alivePlayers.length) {
+        setupQuestionUI(alivePlayers[questionModeData.currentPlayerIndex], titleElement, textElement, revealBtn, nextBtn);
+    } else {
+         startDiscussionPhase(discussionTimerDisplay, startPlayerInfo, playersListDiv, screens);
     }
 }
 

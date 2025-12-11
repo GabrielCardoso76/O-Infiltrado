@@ -5,7 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
         mainMenu: document.getElementById('main-menu-screen'),
         howToPlay: document.getElementById('how-to-play-screen'),
         customSetup: document.getElementById('custom-setup-screen'),
+        questionsSetup: document.getElementById('questions-setup-screen'),
         reveal: document.getElementById('reveal-screen'),
+        questionPhase: document.getElementById('question-phase-screen'),
         actionPhase: document.getElementById('action-phase-screen'),
         game: document.getElementById('game-screen'),
         end: document.getElementById('end-screen'),
@@ -14,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const playerNamesInput = document.getElementById('player-names');
     const classicGameBtn = document.getElementById('classic-game-btn');
     const customSetupBtn = document.getElementById('custom-setup-btn');
+    const questionsGameBtn = document.getElementById('questions-game-btn');
     const howToPlayBtn = document.getElementById('how-to-play-btn');
     const backToMenuFromHowToPlayBtn = document.getElementById('back-to-menu-from-how-to-play-btn');
     const rolesListDetailed = document.getElementById('roles-list-detailed');
@@ -40,6 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const namelessImpostorToggle = document.getElementById('nameless-impostor-toggle');
     const twoImpostorsToggle = document.getElementById('two-impostors-toggle');
     const startCustomGameBtn = document.getElementById('start-custom-game-btn');
+    const startQuestionsGameBtn = document.getElementById('start-questions-game-btn');
+    const backToMenuFromQuestionsBtn = document.getElementById('back-to-menu-from-questions-btn');
+    const questionsThemeSelect = document.getElementById('questions-theme-select');
     const playerTurnTitle = document.getElementById('player-turn-title');
     const roleDisplay = document.getElementById('role-display');
     const wordDisplay = document.getElementById('word-display');
@@ -76,12 +82,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const cancelEliminateBtn = document.getElementById('cancel-eliminate-btn');
     const closeConfirmModalBtn = document.getElementById('close-confirm-modal');
 
+    // Questions Mode Elements
+    const questionPlayerTurnTitle = document.getElementById('question-player-turn-title');
+    const questionText = document.getElementById('question-text');
+    const revealQuestionBtn = document.getElementById('reveal-question-btn');
+    const nextQuestionBtn = document.getElementById('next-question-btn');
+    const questionCard = document.getElementById('question-card');
+
+
     populateHowToPlayScreen(rolesListDetailed, eventsListDetailed);
     populateEventToggles(specificEventsList);
+
+    // Populate Themes
+    for (const theme in questionThemes) {
+        const option = document.createElement('option');
+        option.value = theme;
+        option.textContent = theme;
+        questionsThemeSelect.appendChild(option);
+    }
 
     classicGameBtn.addEventListener('click', () => {
         gameSettings = {
             isClassic: true,
+            isQuestionsMode: false,
             randomMode: false,
             bobo: false,
             cumplice: false,
@@ -165,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         gameSettings = {
             isClassic: false,
+            isQuestionsMode: false,
             randomMode: randomModeToggle.checked,
             bobo: boboToggle.checked,
             cumplice: cumpliceToggle.checked,
@@ -207,6 +231,52 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         initializeGame(playerNamesInput, screens, playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn, startPlayerInfo);
+    });
+
+    questionsGameBtn.addEventListener('click', () => {
+        const names = playerNamesInput.value.trim().split(' ').filter(name => name);
+        if (names.length < 3) {
+            alert('Por favor, digite os nomes de pelo menos 3 jogadores antes de começar.');
+            return;
+        }
+        switchScreen(screens, 'questionsSetup');
+    });
+
+    backToMenuFromQuestionsBtn.addEventListener('click', () => switchScreen(screens, 'mainMenu'));
+
+    startQuestionsGameBtn.addEventListener('click', () => {
+        gameSettings = {
+            isClassic: false,
+            isQuestionsMode: true,
+            theme: questionsThemeSelect.value,
+            revelationMode: 'default',
+            discussionTime: 0, // No timer
+            finalRevelation: 'all'
+        };
+        initializeGame(playerNamesInput, screens, playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn, startPlayerInfo);
+    });
+
+    revealQuestionBtn.addEventListener('click', () => {
+        questionText.style.display = 'block';
+        revealQuestionBtn.classList.add('hidden');
+        nextQuestionBtn.classList.remove('hidden');
+    });
+
+    nextQuestionBtn.addEventListener('click', () => {
+        handleNextQuestion(
+             screens,
+             questionPlayerTurnTitle,
+             questionText,
+             revealQuestionBtn,
+             nextQuestionBtn,
+             document.getElementById('discussion-timer'),
+             startPlayerInfo,
+             playersListDiv,
+             eventTitle,
+             eventDescription,
+             eventModal,
+             closeEventModal
+        );
     });
 
     wordCard.addEventListener('click', () => {

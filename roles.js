@@ -39,6 +39,31 @@ function assignRolesAndWords(names) {
     players.sort(() => Math.random() - 0.5);
 }
 
+function assignRolesAndWordsForQuestions(names) {
+    const themeKey = gameSettings.theme === 'random' ? Object.keys(questionThemes)[Math.floor(Math.random() * Object.keys(questionThemes).length)] : gameSettings.theme;
+    const themeData = questionThemes[themeKey];
+    const word = themeData.words[Math.floor(Math.random() * themeData.words.length)];
+
+    let availablePlayers = [...names];
+    players = [];
+
+    // In Question Mode: 1 Impostor, others Majority. No special roles.
+    let rolesToAssign = [];
+    rolesToAssign.push({ role: 'Infiltrado', word: '' }); // Impostor gets no word
+
+    availablePlayers.sort(() => Math.random() - 0.5);
+
+    players = availablePlayers.map(name => {
+        const assignedRole = rolesToAssign.shift();
+        if (assignedRole) {
+            return { name, ...assignedRole, isAlive: true, hasRevealedOnce: false };
+        }
+        return { name, role: 'Maioria', word: word, isAlive: true, hasRevealedOnce: false };
+    });
+
+    players.sort(() => Math.random() - 0.5);
+}
+
 function showActionUIForPlayer(player, screens, actionUiContainer, actionPhaseMessage, actionPhaseContinueBtn) {
     actionUiContainer.innerHTML = '';
     let hasAction = false;

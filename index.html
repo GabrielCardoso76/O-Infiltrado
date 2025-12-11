@@ -19,8 +19,25 @@
             <div class="menu-buttons">
                 <button id="classic-game-btn" class="btn">Jogo Clássico</button>
                 <button id="custom-setup-btn" class="btn btn-secondary">Partida Personalizada</button>
+                <button id="questions-game-btn" class="btn btn-secondary">Jogo de Perguntas</button>
                 <button id="how-to-play-btn" class="btn btn-secondary">Como Jogar?</button>
             </div>
+        </div>
+
+        <div id="questions-setup-screen" class="screen">
+            <h2>Jogo de Perguntas</h2>
+            <p>Escolha um tema ou deixe aleatório:</p>
+            <div class="custom-options">
+                <div class="option-item-sub">
+                    <label>Tema</label>
+                    <select id="questions-theme-select">
+                        <option value="random">Aleatório</option>
+                        <!-- Options will be populated via JS -->
+                    </select>
+                </div>
+            </div>
+            <button id="start-questions-game-btn" class="btn">Começar Jogo</button>
+            <button id="back-to-menu-from-questions-btn" class="btn btn-secondary">Voltar</button>
         </div>
 
         <div id="how-to-play-screen" class="screen">
@@ -148,6 +165,17 @@
                 <button id="prev-player-btn" class="btn btn-secondary btn-arrow">←</button>
                 <button id="next-player-btn" class="btn btn-arrow">→</button>
             </div>
+        </div>
+
+        <div id="question-phase-screen" class="screen">
+            <h2 id="question-player-turn-title">Pergunta para: Jogador</h2>
+            <p>Passe o celular para o jogador da vez.</p>
+            <div id="question-card" class="card-box">
+                 <p class="card-instruction">Sua pergunta é:</p>
+                 <h3 id="question-text">?</h3>
+            </div>
+             <button id="reveal-question-btn" class="btn">Ver Pergunta</button>
+             <button id="next-question-btn" class="btn hidden">Próximo</button>
         </div>
 
         <div id="action-phase-screen" class="screen">
