@@ -44,6 +44,14 @@ function createPlayerItem(player, pairClass = '', playersListDiv) {
     const eliminateBtn = document.createElement('button');
     eliminateBtn.className = 'btn btn-danger';
     eliminateBtn.textContent = 'Eliminar';
+
+    // In Question Mode, elimination is disabled in Round 1
+    if (gameSettings.isQuestionsMode && roundNumber === 1) {
+        eliminateBtn.disabled = true;
+        eliminateBtn.textContent = 'Bloqueado (Rodada 1)';
+        eliminateBtn.style.backgroundColor = '#555';
+    }
+
     eliminateBtn.onclick = (e) => {
         e.stopPropagation();
         promptElimination(player.name, document.getElementById('player-to-eliminate-name'), document.getElementById('confirm-elimination-modal'));
