@@ -37,6 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const maxActionTimerSlider = document.getElementById('max-action-timer-slider');
     const minTimerValue = document.getElementById('min-timer-value');
     const maxTimerValue = document.getElementById('max-timer-value');
+    const namelessImpostorToggle = document.getElementById('nameless-impostor-toggle');
+    const twoImpostorsToggle = document.getElementById('two-impostors-toggle');
     const startCustomGameBtn = document.getElementById('start-custom-game-btn');
     const playerTurnTitle = document.getElementById('player-turn-title');
     const roleDisplay = document.getElementById('role-display');
@@ -89,6 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
             coveiro: false,
             agenteDuplo: false,
             mimico: false,
+            namelessImpostor: false,
+            twoImpostors: false,
             events: false,
             minActionTimer: 5,
             maxActionTimer: 15,
@@ -143,7 +147,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const discussionTimeSlider = document.getElementById('discussion-time-slider');
     const discussionTimeValue = document.getElementById('discussion-time-value');
     discussionTimeSlider.addEventListener('input', (e) => {
-        discussionTimeValue.textContent = e.target.value;
+        const val = parseFloat(e.target.value);
+        if (val === 0) {
+             discussionTimeValue.textContent = "Sem tempo";
+        } else {
+             discussionTimeValue.textContent = val + " min";
+        }
     });
 
     startCustomGameBtn.addEventListener('click', () => {
@@ -166,11 +175,13 @@ document.addEventListener('DOMContentLoaded', () => {
             agenteDuplo: agenteDuploToggle.checked,
             mimico: mimicoToggle.checked,
             detectiveMode: document.querySelector('input[name="detectiveMode"]:checked').value,
+            namelessImpostor: namelessImpostorToggle.checked,
+            twoImpostors: twoImpostorsToggle.checked,
             events: eventsToggle.checked,
             enabledEvents: enabledEvents,
             minActionTimer: parseInt(minActionTimerSlider.value, 10),
             maxActionTimer: parseInt(maxActionTimerSlider.value, 10),
-            discussionTime: parseInt(document.getElementById('discussion-time-slider').value, 10),
+            discussionTime: parseFloat(document.getElementById('discussion-time-slider').value),
             revelationMode: document.querySelector('input[name="revelationMode"]:checked').value,
             finalRevelation: document.querySelector('input[name="finalRevelation"]:checked').value,
         };
@@ -187,10 +198,11 @@ document.addEventListener('DOMContentLoaded', () => {
         ].filter(Boolean).length;
 
         const playerNames = playerNamesInput.value.trim().split(' ').filter(name => name);
-        const requiredPlayers = specialRolesCount + 2; // Infiltrado + 1 Maioria
+        const baseRequired = gameSettings.twoImpostors ? 4 : 3; // 2 Infiltrados + 2 Maioria VS 1 Infiltrado + 2 Maioria
+        const requiredPlayers = specialRolesCount + baseRequired;
 
         if (playerNames.length < requiredPlayers) {
-            alert(`Você selecionou ${specialRolesCount} papéis especiais. São necessários pelo menos ${requiredPlayers} jogadores para esta configuração (incluindo Infiltrado e Maioria).`);
+            alert(`Você selecionou ${specialRolesCount} papéis especiais e/ou modo com 2 Infiltrados. São necessários pelo menos ${requiredPlayers} jogadores para esta configuração.`);
             return;
         }
 

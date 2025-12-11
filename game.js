@@ -207,9 +207,11 @@ function checkEndGame(eliminatedPlayer, screens, gameResultInfo, winnerMessage) 
         endGame('infiltrators', null, screens, gameResultInfo, winnerMessage);
         return;
     }
-    if (alivePlayers.length <= 2) {
-        endGame('infiltrators', null, screens, gameResultInfo, winnerMessage);
-        return;
+
+    // Condition for Infiltrators win when ratio is met (e.g. 2 impostors vs 2 good guys)
+    if (aliveInfiltrators.length >= aliveGoodGuys.length) {
+         endGame('infiltrators', null, screens, gameResultInfo, winnerMessage);
+         return;
     }
 
     triggerPostEliminationEvent();
@@ -218,13 +220,13 @@ function checkEndGame(eliminatedPlayer, screens, gameResultInfo, winnerMessage) 
 function endGame(winnerType, winningPlayer = null, screens, gameResultInfo, winnerMessage) {
     switchScreen(screens, 'end');
     let resultText = '';
-    const infiltrator = players.find(p => p.role === 'Infiltrado');
+    const infiltrators = players.filter(p => p.role === 'Infiltrado');
 
     if (gameSettings.finalRevelation === 'infiltratorOnly') {
-        resultText = `O Infiltrado era ${infiltrator.name}.`;
+        resultText = `Infiltrado(s): ${infiltrators.map(i => i.name).join(', ')}.`;
     } else if (gameSettings.finalRevelation === 'infiltratorAndAccomplice') {
         const accomplice = players.find(p => p.role === 'Cúmplice');
-        resultText = `O Infiltrado era ${infiltrator.name}.`;
+        resultText = `Infiltrado(s): ${infiltrators.map(i => i.name).join(', ')}.`;
         if (accomplice) {
             resultText += `\nO Cúmplice era ${accomplice.name}.`;
         }

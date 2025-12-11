@@ -6,7 +6,13 @@ function assignRolesAndWords(names) {
     players = [];
     let rolesToAssign = [];
 
-    rolesToAssign.push({ role: 'Infiltrado', word: infiltratorWord });
+    const infiltratorWordToAssign = gameSettings.namelessImpostor ? '' : infiltratorWord;
+
+    rolesToAssign.push({ role: 'Infiltrado', word: infiltratorWordToAssign });
+    if (gameSettings.twoImpostors) {
+        rolesToAssign.push({ role: 'Infiltrado', word: infiltratorWordToAssign });
+    }
+
     if (gameSettings.bobo) {
         const filteredBoboWords = boboWords.filter(bw => bw.category !== pairCategory);
         const randomBoboEntry = filteredBoboWords[Math.floor(Math.random() * filteredBoboWords.length)];
