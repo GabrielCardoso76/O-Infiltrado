@@ -31,23 +31,25 @@ body {
     position: absolute;
     top: 15px;
     right: 15px;
-    background: rgba(0, 0, 0, 0.5);
-    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
     color: white;
     font-size: 24px;
     cursor: pointer;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
-    transition: transform 0.3s ease;
+    z-index: 9999;
+    transition: transform 0.3s ease, background-color 0.3s;
+    backdrop-filter: blur(5px);
 }
 
 .settings-btn:hover {
     transform: rotate(90deg);
+    background: rgba(255, 255, 255, 0.4);
 }
 
 .theme-selector {
@@ -198,7 +200,83 @@ input[type="text"] {
 .option-item { display: flex; justify-content: space-between; align-items: center; background-color: #333; padding: 15px; border-radius: 8px; }
 .option-item-sub { flex-direction: column; align-items: flex-start; gap: 10px; padding: 15px; background-color: #2a2a2a; border-radius: 8px; }
 .option-item-sub.hidden { display: none; }
+.hidden { display: none !important; }
 .radio-group { display: flex; gap: 20px; }
+
+/* Player Management Styles */
+.player-management-container {
+    background-color: #2a2a2a;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.player-mgmt-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.player-mgmt-item {
+    background-color: #444;
+    padding: 5px 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #555;
+}
+
+.btn-delete-player {
+    background: none;
+    border: none;
+    color: var(--danger-color);
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1em;
+    padding: 0;
+    line-height: 1;
+}
+
+.btn-delete-player:hover {
+    color: #ff5252;
+}
+
+.player-mgmt-add {
+    display: flex;
+    gap: 10px;
+}
+
+.player-mgmt-input {
+    flex-grow: 1;
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: 1px solid #555;
+    background-color: #333;
+    color: var(--text-color);
+    margin: 0 !important; /* Override default input margin */
+}
+
+.btn-add-player {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px; /* Match input height roughly */
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.btn-add-player:hover {
+    background-color: var(--primary-color);
+}
 .slider-container { flex-direction: column; align-items: flex-start; gap: 10px; }
 input[type="range"] { width: 100%; }
 

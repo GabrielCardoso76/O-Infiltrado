@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     screens = {
         mainMenu: document.getElementById('main-menu-screen'),
         howToPlay: document.getElementById('how-to-play-screen'),
+        classicSetup: document.getElementById('classic-setup-screen'),
         customSetup: document.getElementById('custom-setup-screen'),
         questionsSetup: document.getElementById('questions-setup-screen'),
         reveal: document.getElementById('reveal-screen'),
@@ -63,7 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const skipRoundBtn = document.getElementById('skip-round-btn');
     const winnerMessage = document.getElementById('winner-message');
     const gameResultInfo = document.getElementById('game-result-info');
-    const playAgainBtn = document.getElementById('play-again-btn');
+    const playSamePlayersBtn = document.getElementById('play-same-players-btn');
+    const exitBtn = document.getElementById('exit-btn');
     const infoModal = document.getElementById('info-modal');
     const infoModalTitle = document.getElementById('info-modal-title');
     const infoModalDescription = document.getElementById('info-modal-description');
@@ -94,6 +96,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextQuestionBtn = document.getElementById('next-question-btn');
     const questionCard = document.getElementById('question-card');
 
+    // Player List Elements
+    const customPlayerListContainer = document.getElementById('custom-player-list-container');
+    const questionsPlayerListContainer = document.getElementById('questions-player-list-container');
+    const classicPlayerListContainer = document.getElementById('classic-player-list-container');
+    const startClassicGameBtn = document.getElementById('start-classic-game-btn');
+    const backToMenuFromClassicBtn = document.getElementById('back-to-menu-from-classic-btn');
+
+    let globalPlayerNames = [];
 
     populateHowToPlayScreen(rolesListDetailed, eventsListDetailed);
     populateEventToggles(specificEventsList);
@@ -116,7 +126,36 @@ document.addEventListener('DOMContentLoaded', () => {
         settingsModal.style.display = 'none';
     });
 
+    function updatePlayerLists() {
+        renderPlayerManagement(customPlayerListContainer, globalPlayerNames, (newList) => globalPlayerNames = newList);
+        renderPlayerManagement(questionsPlayerListContainer, globalPlayerNames, (newList) => globalPlayerNames = newList);
+        renderPlayerManagement(classicPlayerListContainer, globalPlayerNames, (newList) => globalPlayerNames = newList);
+    }
+
+    function initPlayerListFromInput() {
+        const inputVal = playerNamesInput.value.trim();
+        if (inputVal) {
+            const newNames = inputVal.split(' ').filter(name => name);
+            newNames.forEach(name => {
+                if (!globalPlayerNames.includes(name)) {
+                    globalPlayerNames.push(name);
+                }
+            });
+            playerNamesInput.value = ''; // Clear input after adding
+        }
+        updatePlayerLists();
+    }
+
     classicGameBtn.addEventListener('click', () => {
+        initPlayerListFromInput();
+        switchScreen(screens, 'classicSetup');
+    });
+
+    startClassicGameBtn.addEventListener('click', () => {
+        if (globalPlayerNames.length < 3) {
+            alert('Por favor, adicione pelo menos 3 jogadores.');
+            return;
+        }
         gameSettings = {
             isClassic: true,
             isQuestionsMode: false,
@@ -138,15 +177,13 @@ document.addEventListener('DOMContentLoaded', () => {
             revelationMode: 'default',
             finalRevelation: 'all'
         };
-        initializeGame(playerNamesInput, screens, playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn, startPlayerInfo);
+        initializeGameWithNames(globalPlayerNames, screens, playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn, startPlayerInfo);
     });
 
+    backToMenuFromClassicBtn.addEventListener('click', () => switchScreen(screens, 'mainMenu'));
+
     customSetupBtn.addEventListener('click', () => {
-        const names = playerNamesInput.value.trim().split(' ').filter(name => name);
-        if (names.length < 3) {
-            alert('Por favor, digite os nomes de pelo menos 3 jogadores antes de personalizar a partida.');
-            return;
-        }
+        initPlayerListFromInput();
         switchScreen(screens, 'customSetup');
     });
 
@@ -236,30 +273,29 @@ document.addEventListener('DOMContentLoaded', () => {
             gameSettings.mimico
         ].filter(Boolean).length;
 
-        const playerNames = playerNamesInput.value.trim().split(' ').filter(name => name);
         const baseRequired = gameSettings.twoImpostors ? 4 : 3; // 2 Infiltrados + 2 Maioria VS 1 Infiltrado + 2 Maioria
         const requiredPlayers = specialRolesCount + baseRequired;
 
-        if (playerNames.length < requiredPlayers) {
+        if (globalPlayerNames.length < requiredPlayers) {
             alert(`Você selecionou ${specialRolesCount} papéis especiais e/ou modo com 2 Infiltrados. São necessários pelo menos ${requiredPlayers} jogadores para esta configuração.`);
             return;
         }
 
-        initializeGame(playerNamesInput, screens, playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn, startPlayerInfo);
+        initializeGameWithNames(globalPlayerNames, screens, playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn, startPlayerInfo);
     });
 
     questionsGameBtn.addEventListener('click', () => {
-        const names = playerNamesInput.value.trim().split(' ').filter(name => name);
-        if (names.length < 3) {
-            alert('Por favor, digite os nomes de pelo menos 3 jogadores antes de começar.');
-            return;
-        }
+        initPlayerListFromInput();
         switchScreen(screens, 'questionsSetup');
     });
 
     backToMenuFromQuestionsBtn.addEventListener('click', () => switchScreen(screens, 'mainMenu'));
 
     startQuestionsGameBtn.addEventListener('click', () => {
+        if (globalPlayerNames.length < 3) {
+            alert('Por favor, adicione pelo menos 3 jogadores.');
+            return;
+        }
         gameSettings = {
             isClassic: false,
             isQuestionsMode: true,
@@ -268,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
             discussionTime: 0, // No timer
             finalRevelation: 'all'
         };
-        initializeGame(playerNamesInput, screens, playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn, startPlayerInfo);
+        initializeGameWithNames(globalPlayerNames, screens, playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn, startPlayerInfo);
     });
 
     revealQuestionBtn.addEventListener('click', () => {
@@ -343,8 +379,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    playAgainBtn.addEventListener('click', () => {
-        playerNamesInput.value = '';
+    playSamePlayersBtn.addEventListener('click', () => {
+        // Reuse globalPlayerNames
+        initializeGameWithNames(globalPlayerNames, screens, playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn, startPlayerInfo);
+    });
+
+    exitBtn.addEventListener('click', () => {
+        globalPlayerNames = []; // Reset players on exit
+        updatePlayerLists(); // Clear lists UI
         switchScreen(screens, 'mainMenu');
     });
 

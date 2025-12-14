@@ -25,6 +25,10 @@ let questionModeData = {
 
 function initializeGame(playerNamesInput, screens, playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn, startPlayerInfo) {
     const names = playerNamesInput.value.trim().split(' ').filter(name => name);
+    initializeGameWithNames(names, screens, playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn, startPlayerInfo);
+}
+
+function initializeGameWithNames(names, screens, playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn, startPlayerInfo) {
     let requiredPlayers = 3;
 
     if(gameSettings.randomMode) {

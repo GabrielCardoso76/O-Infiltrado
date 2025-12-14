@@ -16,8 +16,10 @@
     <div class="container">
         <div id="main-menu-screen" class="screen active">
             <h1>O Infiltrado</h1>
-            <p>Digite os nomes dos jogadores, separados por espaço.</p>
-            <input type="text" id="player-names" placeholder="Ex: Ana Pedro Bia Carlos">
+            <p>Adicione os nomes dos jogadores para começar.</p>
+            <div id="main-player-input-container">
+                <input type="text" id="player-names" placeholder="Ex: Ana Pedro Bia Carlos">
+            </div>
             <div class="menu-buttons">
                 <button id="classic-game-btn" class="btn">Jogo Clássico</button>
                 <button id="custom-setup-btn" class="btn btn-secondary">Partida Personalizada</button>
@@ -28,6 +30,11 @@
 
         <div id="questions-setup-screen" class="screen">
             <h2>Jogo de Perguntas</h2>
+
+            <div id="questions-player-list-container" class="player-management-container">
+                <!-- Player list will be injected here -->
+            </div>
+
             <p>Escolha um tema ou deixe aleatório:</p>
             <div class="custom-options">
                 <div class="option-item-sub">
@@ -53,6 +60,11 @@
 
         <div id="custom-setup-screen" class="screen">
             <h2>Partida Personalizada</h2>
+
+            <div id="custom-player-list-container" class="player-management-container">
+                <!-- Player list will be injected here -->
+            </div>
+
             <div class="custom-options">
                 <div class="option-item">
                     <label for="random-mode-toggle">Modo Aleatório <span class="info-icon" data-rule="random-mode">?</span></label>
@@ -156,6 +168,16 @@
             <button id="back-to-menu-btn" class="btn btn-secondary">Voltar</button>
         </div>
 
+        <div id="classic-setup-screen" class="screen">
+            <h2>Jogo Clássico</h2>
+            <p>Confira os jogadores antes de começar.</p>
+            <div id="classic-player-list-container" class="player-management-container">
+                <!-- Player list will be injected here -->
+            </div>
+            <button id="start-classic-game-btn" class="btn">Começar Jogo</button>
+            <button id="back-to-menu-from-classic-btn" class="btn btn-secondary">Voltar</button>
+        </div>
+
         <div id="reveal-screen" class="screen">
             <h2 id="player-turn-title">Vez de: Jogador</h2>
             <p>Clique no card para ver seu papel e sua palavra.</p>
@@ -202,7 +224,8 @@
         <div id="end-screen" class="screen">
             <h2 id="winner-message"></h2>
             <p id="game-result-info"></p>
-            <button id="play-again-btn" class="btn">Jogar Novamente</button>
+            <button id="play-same-players-btn" class="btn">Jogar com as mesmas pessoas</button>
+            <button id="exit-btn" class="btn btn-secondary">Sair</button>
         </div>
     </div>
 
@@ -262,6 +285,7 @@
     <script src="data.js"></script>
     <script src="themes.js"></script>
     <script src="theme-manager.js"></script>
+    <script src="player-manager.js"></script>
     <script src="roles.js"></script>
     <script src="events.js"></script>
     <script src="ui.js"></script>
