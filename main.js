@@ -82,6 +82,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const cancelEliminateBtn = document.getElementById('cancel-eliminate-btn');
     const closeConfirmModalBtn = document.getElementById('close-confirm-modal');
 
+    // Settings Elements
+    const settingsBtn = document.getElementById('settings-btn');
+    const settingsModal = document.getElementById('settings-modal');
+    const closeSettingsModalBtn = document.getElementById('close-settings-modal');
+
     // Questions Mode Elements
     const questionPlayerTurnTitle = document.getElementById('question-player-turn-title');
     const questionText = document.getElementById('question-text');
@@ -92,14 +97,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     populateHowToPlayScreen(rolesListDetailed, eventsListDetailed);
     populateEventToggles(specificEventsList);
+    initThemeManager();
 
-    // Populate Themes
+    // Populate Themes (Question Mode)
     for (const theme in questionThemes) {
         const option = document.createElement('option');
         option.value = theme;
         option.textContent = theme;
         questionsThemeSelect.appendChild(option);
     }
+
+    // Settings Button Logic
+    settingsBtn.addEventListener('click', () => {
+        settingsModal.style.display = 'block';
+    });
+
+    closeSettingsModalBtn.addEventListener('click', () => {
+        settingsModal.style.display = 'none';
+    });
 
     classicGameBtn.addEventListener('click', () => {
         gameSettings = {
@@ -405,6 +420,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
                 case 'info-modal':
                     handleInfoModalClose();
+                    break;
+                case 'settings-modal':
+                    settingsModal.style.display = 'none';
                     break;
                 default:
                     event.target.style.display = 'none';

@@ -11,6 +11,8 @@
 </head>
 <body>
 
+    <button id="settings-btn" class="settings-btn" aria-label="Configurações">⚙️</button>
+
     <div class="container">
         <div id="main-menu-screen" class="screen active">
             <h1>O Infiltrado</h1>
@@ -243,10 +245,23 @@
         </div>
     </div>
 
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-settings-modal">&times;</span>
+            <h2>Configurações</h2>
+            <h3>Temas</h3>
+            <div id="theme-selector" class="theme-selector">
+                <!-- Themes will be populated here -->
+            </div>
+        </div>
+    </div>
+
     <div id="timer-backdrop" class="timer-backdrop"></div>
     <div id="discussion-timer"></div>
 
     <script src="data.js"></script>
+    <script src="themes.js"></script>
+    <script src="theme-manager.js"></script>
     <script src="roles.js"></script>
     <script src="events.js"></script>
     <script src="ui.js"></script>
