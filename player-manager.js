@@ -48,7 +48,8 @@ function renderPlayerManagement(container, playersList, updateCallback) {
             playersList.push(newName);
             updateCallback(playersList);
             renderPlayerManagement(container, playersList, updateCallback);
-            input.focus();
+            const newInput = container.querySelector('.player-mgmt-input');
+            if (newInput) newInput.focus();
         }
     };
 

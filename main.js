@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const rolesListDetailed = document.getElementById('roles-list-detailed');
     const eventsListDetailed = document.getElementById('events-list-detailed');
     const backToMenuBtn = document.getElementById('back-to-menu-btn');
+    const backToMenuBtnTop = document.getElementById('back-to-menu-btn-top');
     const randomModeToggle = document.getElementById('random-mode-toggle');
     const manualRolesContainer = document.getElementById('manual-roles-container');
     const boboToggle = document.getElementById('bobo-toggle');
@@ -171,9 +172,9 @@ document.addEventListener('DOMContentLoaded', () => {
             namelessImpostor: false,
             twoImpostors: false,
             events: false,
-            minActionTimer: 5,
+            minActionTimer: 15,
             maxActionTimer: 15,
-            discussionTime: 3,
+            discussionTime: 0.25,
             revelationMode: 'default',
             finalRevelation: 'all'
         };
@@ -188,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     backToMenuBtn.addEventListener('click', () => switchScreen(screens, 'mainMenu'));
+    backToMenuBtnTop.addEventListener('click', () => switchScreen(screens, 'mainMenu'));
     howToPlayBtn.addEventListener('click', () => switchScreen(screens, 'howToPlay'));
     backToMenuFromHowToPlayBtn.addEventListener('click', () => switchScreen(screens, 'mainMenu'));
 
