@@ -100,7 +100,47 @@ const wordPairs = [
     { majority: 'Brigadeiro', infiltrator: 'Beijinho', category: 'Doce' },
     { majority: 'Beijinho', infiltrator: 'Brigadeiro', category: 'Doce' },
     { majority: 'Churrasco', infiltrator: 'Feijoada', category: 'Comida Brasileira' },
-    { majority: 'Feijoada', infiltrator: 'Churrasco', category: 'Comida Brasileira' }
+    { majority: 'Feijoada', infiltrator: 'Churrasco', category: 'Comida Brasileira' },
+    { majority: 'Professor', infiltrator: 'Aluno', category: 'Escola' },
+    { majority: 'Aluno', infiltrator: 'Professor', category: 'Escola' },
+    { majority: 'Céu', infiltrator: 'Inferno', category: 'Mítico' },
+    { majority: 'Inferno', infiltrator: 'Céu', category: 'Mítico' },
+    { majority: 'Água', infiltrator: 'Fogo', category: 'Elemento' },
+    { majority: 'Fogo', infiltrator: 'Água', category: 'Elemento' },
+    { majority: 'Espada', infiltrator: 'Escudo', category: 'Arma' },
+    { majority: 'Escudo', infiltrator: 'Espada', category: 'Arma' },
+    { majority: 'Rei', infiltrator: 'Rainha', category: 'Realeza' },
+    { majority: 'Rainha', infiltrator: 'Rei', category: 'Realeza' },
+    { majority: 'Mágica', infiltrator: 'Ciência', category: 'Conceito' },
+    { majority: 'Ciência', infiltrator: 'Mágica', category: 'Conceito' },
+    { majority: 'Pão', infiltrator: 'Torrada', category: 'Comida' },
+    { majority: 'Torrada', infiltrator: 'Pão', category: 'Comida' },
+    { majority: 'Colar', infiltrator: 'Pulseira', category: 'Acessório' },
+    { majority: 'Pulseira', infiltrator: 'Colar', category: 'Acessório' },
+    { majority: 'Tigre', infiltrator: 'Leão', category: 'Animal' },
+    { majority: 'Leão', infiltrator: 'Tigre', category: 'Animal' },
+    { majority: 'Morango', infiltrator: 'Cereja', category: 'Fruta' },
+    { majority: 'Cereja', infiltrator: 'Morango', category: 'Fruta' },
+    { majority: 'Navio', infiltrator: 'Barco', category: 'Veículo' },
+    { majority: 'Barco', infiltrator: 'Navio', category: 'Veículo' },
+    { majority: 'Polícia', infiltrator: 'Ladrão', category: 'Conceito' },
+    { majority: 'Ladrão', infiltrator: 'Polícia', category: 'Conceito' },
+    { majority: 'Lápis', infiltrator: 'Caneta', category: 'Escrita' },
+    { majority: 'Caneta', infiltrator: 'Lápis', category: 'Escrita' },
+    { majority: 'Chocolate', infiltrator: 'Baunilha', category: 'Sabor' },
+    { majority: 'Baunilha', infiltrator: 'Chocolate', category: 'Sabor' },
+    { majority: 'Dia', infiltrator: 'Noite', category: 'Tempo' },
+    { majority: 'Noite', infiltrator: 'Dia', category: 'Tempo' },
+    { majority: 'Arroz', infiltrator: 'Macarrão', category: 'Comida' },
+    { majority: 'Macarrão', infiltrator: 'Arroz', category: 'Comida' },
+    { majority: 'Batom', infiltrator: 'Rímel', category: 'Maquiagem' },
+    { majority: 'Rímel', infiltrator: 'Batom', category: 'Maquiagem' },
+    { majority: 'Floresta', infiltrator: 'Selva', category: 'Lugar' },
+    { majority: 'Selva', infiltrator: 'Floresta', category: 'Lugar' },
+    { majority: 'Circo', infiltrator: 'Parque de Diversões', category: 'Entretenimento' },
+    { majority: 'Parque de Diversões', infiltrator: 'Circo', category: 'Entretenimento' },
+    { majority: 'Múmia', infiltrator: 'Zumbi', category: 'Monstro' },
+    { majority: 'Zumbi', infiltrator: 'Múmia', category: 'Monstro' }
 ];
 
 const boboWords = [
@@ -123,7 +163,17 @@ const boboWords = [
     { word: 'Arco-íris', category: 'Natureza' },
     { word: 'Castelo', category: 'Construção' },
     { word: 'Bússola', category: 'Objeto' },
-    { word: 'Telescópio', category: 'Objeto' }
+    { word: 'Telescópio', category: 'Objeto' },
+    { word: 'Dinossauro', category: 'História' },
+    { word: 'Espelho', category: 'Objeto' },
+    { word: 'Labirinto', category: 'Lugar' },
+    { word: 'Bumerangue', category: 'Brinquedo' },
+    { word: 'Caleidoscópio', category: 'Brinquedo' },
+    { word: 'Oásis', category: 'Geografia' },
+    { word: 'Iglu', category: 'Moradia' },
+    { word: 'Farol', category: 'Construção' },
+    { word: 'Paraquedas', category: 'Objeto' },
+    { word: 'Âncora', category: 'Náutico' }
 ];
 
 const rules = {
@@ -198,6 +248,51 @@ const questionThemes = {
             'Esse animal é comum no Brasil?',
             'Esse animal é rápido ou lento?',
             'Você já viu esse animal pessoalmente?'
+        ]
+    },
+    'Cinema': {
+        words: ['Harry Potter', 'Star Wars', 'Vingadores', 'Rei Leão', 'Titanic', 'Matrix', 'Jurassic Park', 'Shrek', 'Homem-Aranha', 'Frozen'],
+        questions: [
+            'Você já assistiu a esse filme mais de uma vez?',
+            'Esse filme tem continuação?',
+            'Qual o gênero principal desse filme?',
+            'Você chorou assistindo a esse filme?',
+            'Esse filme é antigo ou recente?',
+            'Você gosta da trilha sonora desse filme?',
+            'Esse filme ganhou algum prêmio?',
+            'Você se identifica com o protagonista?',
+            'Esse filme é baseado em um livro?',
+            'Você recomendaria esse filme para uma criança?'
+        ]
+    },
+    'Viagem': {
+        words: ['Paris', 'Disney', 'Nova York', 'Roma', 'Londres', 'Egito', 'Cancún', 'Tóquio', 'Machu Picchu', 'Fernando de Noronha'],
+        questions: [
+            'Você já visitou esse lugar?',
+            'É preciso visto para entrar nesse lugar?',
+            'Que língua se fala nesse lugar?',
+            'É um destino caro ou barato?',
+            'É melhor visitar no verão ou no inverno?',
+            'O que é imperdível fazer lá?',
+            'A comida local é boa?',
+            'É um lugar seguro para turistas?',
+            'Quantas horas de voo para chegar lá?',
+            'Você moraria nesse lugar?'
+        ]
+    },
+    'Hobbies': {
+        words: ['Futebol', 'Videogame', 'Leitura', 'Dança', 'Cozinhar', 'Pintura', 'Fotografia', 'Pesca', 'Jardinagem', 'Costura'],
+        questions: [
+            'Você pratica esse hobby com frequência?',
+            'É um hobby caro?',
+            'Você precisa de equipamento especial?',
+            'Dá para fazer isso sozinho?',
+            'Você aprendeu isso com alguém?',
+            'Isso te relaxa ou te agita?',
+            'Você é bom nisso?',
+            'Você ganha dinheiro com isso?',
+            'É um hobby perigoso?',
+            'Você faria isso o dia todo se pudesse?'
         ]
     }
 };

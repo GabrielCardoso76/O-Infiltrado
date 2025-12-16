@@ -54,7 +54,25 @@ function initializeGameWithNames(names, screens, playerTurnTitle, roleDisplay, w
     actionPhase.pendingInvestigation = null;
     startPlayerInfo.textContent = '';
     setupRevealPhase(playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn);
+
+    // Check if we should show the "Pass Phone" screen first (always for first player in standard mode)
+    // But initially we might want to just show the reveal screen for player 0.
+    // However, the new flow suggests an intermediate screen.
+    // Let's stick to showing reveal for player 0 immediately, or use the pass phone screen?
+    // User requested "intermediate screen ... similar to action phase".
+    // Usually, you hand the phone to Player 1, so Player 1 starts.
+    // If we want to be consistent, we could show "Pass to [Player 1]" initially too.
+    // But let's keep it simple: Start -> Player 1 Reveal Screen.
+    // Then Player 1 clicks Next -> Pass Phone to Player 2 -> Player 2 Reveal.
+
     switchScreen(screens, 'reveal');
+}
+
+function showPassPhoneScreen(screens, nameDisplay, buttonSpan, nextPlayerIndex) {
+    const nextPlayer = players[nextPlayerIndex];
+    nameDisplay.textContent = nextPlayer.name;
+    buttonSpan.textContent = nextPlayer.name;
+    switchScreen(screens, 'passPhone');
 }
 
 function randomizeRoles(playerCount) {

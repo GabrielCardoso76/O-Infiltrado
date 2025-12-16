@@ -8,11 +8,17 @@ document.addEventListener('DOMContentLoaded', () => {
         customSetup: document.getElementById('custom-setup-screen'),
         questionsSetup: document.getElementById('questions-setup-screen'),
         reveal: document.getElementById('reveal-screen'),
+        passPhone: document.getElementById('pass-phone-screen'),
         questionPhase: document.getElementById('question-phase-screen'),
         actionPhase: document.getElementById('action-phase-screen'),
         game: document.getElementById('game-screen'),
         end: document.getElementById('end-screen'),
     };
+
+    // Pass Phone Elements
+    const passPhoneName = document.getElementById('pass-phone-name');
+    const confirmPassBtn = document.getElementById('confirm-pass-btn');
+    const confirmPassNameSpan = document.getElementById('confirm-pass-name-span');
 
     const playerNamesInput = document.getElementById('player-names');
     const classicGameBtn = document.getElementById('classic-game-btn');
@@ -116,6 +122,30 @@ document.addEventListener('DOMContentLoaded', () => {
         option.value = theme;
         option.textContent = theme;
         questionsThemeSelect.appendChild(option);
+    }
+
+    // Tutorial Logic
+    if (!localStorage.getItem('tutorialSeen')) {
+        const tutorialSteps = [
+            { title: "Bem-vindo!", desc: "O objetivo do jogo é encontrar o Infiltrado." },
+            { title: "Papéis", desc: "A Maioria recebe a mesma palavra secreta. O Infiltrado recebe uma palavra diferente (ou nenhuma)." },
+            { title: "Discussão", desc: "Façam perguntas uns aos outros para tentar descobrir quem não sabe a palavra secreta da Maioria." },
+            { title: "Votação", desc: "Eliminem o jogador suspeito! Se o Infiltrado sobrar, ele ganha." }
+        ];
+
+        let step = 0;
+        const showTutorialStep = () => {
+            if (step < tutorialSteps.length) {
+                showInfoModal(tutorialSteps[step].title, tutorialSteps[step].desc, () => {
+                    step++;
+                    showTutorialStep();
+                }, infoModalTitle, infoModalDescription, infoModal, infoModalContinueBtn);
+            } else {
+                localStorage.setItem('tutorialSeen', 'true');
+            }
+        };
+        // Small delay to ensure UI is ready
+        setTimeout(showTutorialStep, 500);
     }
 
     // Settings Button Logic
@@ -345,10 +375,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Pass Phone Logic
+    confirmPassBtn.addEventListener('click', () => {
+        setupRevealPhase(playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn);
+        switchScreen(screens, 'reveal');
+    });
+
     prevPlayerBtn.addEventListener('click', () => {
         if (currentPlayerIndex > 0) {
             currentPlayerIndex--;
-            setupRevealPhase(playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn);
+            showPassPhoneScreen(screens, passPhoneName, confirmPassNameSpan, currentPlayerIndex);
         }
     });
 
@@ -360,7 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (currentPlayerIndex < players.length - 1) {
             currentPlayerIndex++;
-            setupRevealPhase(playerTurnTitle, roleDisplay, wordDisplay, wordCard, prevPlayerBtn, nextPlayerBtn);
+            showPassPhoneScreen(screens, passPhoneName, confirmPassNameSpan, currentPlayerIndex);
         } else {
             startRound(
                 actionPhaseTitle,
